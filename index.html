@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KIANJA — Tout le sport malgache, en direct et en replay</title>
+<meta name="description" content="KIANJA filme et diffuse les championnats malgaches : football D1, basketball N1A, rugby, volley, boxe. Lives, résumés, scores et classements.">
+<meta property="og:title" content="KIANJA — Tout le sport malgache">
+<meta property="og:description" content="Lives, résumés, scores et classements des championnats de Madagascar.">
+<meta property="og:type" content="website">
+<style>
+/* ============================================================
+   KIANJA — Design system (palette du Business Plan)
+   ============================================================ */
+:root{
+  --ink:#101820; --slate:#4A5560; --grey:#8A939C; --faint:#E3E1DA;
+  --bg:#F4F3EF; --paper:#FFFFFF;
+  --green:#0B6B45; --green2:#12925F; --mint:#E3F0E9;
+  --red:#D8432F; --gold:#C89B3C; --navy:#15303F;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);color:var(--ink);line-height:1.5}
+a{color:inherit;text-decoration:none}
+img{max-width:100%}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+
+/* ---------- header ---------- */
+header{background:var(--navy);position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+.nav{display:flex;align-items:center;gap:8px;height:58px}
+.logo{display:flex;align-items:center;gap:10px;margin-right:auto}
+.logo .mark{width:30px;height:30px;background:var(--green);border-radius:7px;display:grid;place-items:center;
+  color:#fff;font-weight:800;font-size:15px}
+.logo b{color:#fff;font-size:19px;letter-spacing:.06em}
+.logo small{color:#7FB99F;font-size:10px;display:block;margin-top:-3px;letter-spacing:.02em}
+.nav a.item{color:#C4D2DA;font-size:13.5px;font-weight:600;padding:8px 10px;border-radius:8px}
+.nav a.item:hover,.nav a.item.on{background:rgba(255,255,255,.08);color:#fff}
+.burger{display:none;background:none;border:0;color:#fff;font-size:22px;cursor:pointer;padding:6px}
+@media(max-width:820px){
+  .nav .menu{display:none;position:absolute;top:58px;left:0;right:0;background:var(--navy);
+    flex-direction:column;padding:8px 16px 14px;gap:2px}
+  .nav .menu.open{display:flex}
+  .burger{display:block}
+}
+.menu{display:flex;gap:2px}
+
+/* ---------- live ticker ---------- */
+.ticker{background:var(--green);color:#fff;font-size:12.5px;padding:7px 0;overflow:hidden}
+.ticker .wrap{display:flex;gap:26px;white-space:nowrap;overflow-x:auto;scrollbar-width:none}
+.ticker b{font-weight:800}
+.dotlive{display:inline-block;width:7px;height:7px;border-radius:50%;background:#FF5B49;
+  margin-right:5px;animation:pulse 1.2s infinite}
+@keyframes pulse{50%{opacity:.35}}
+
+/* ---------- hero ---------- */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#0F2531 100%);color:#fff;padding:44px 0 40px}
+.hero .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center}
+@media(max-width:820px){.hero .grid{grid-template-columns:1fr}}
+.kicker{color:#7FB99F;font-weight:800;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.hero h1{font-size:clamp(26px,4.4vw,40px);line-height:1.15;margin:10px 0 12px}
+.hero p{color:#C4D2DA;font-size:15px;max-width:52ch}
+.cta{display:inline-block;background:var(--green);color:#fff;font-weight:700;font-size:14px;
+  padding:12px 22px;border-radius:10px;margin:18px 10px 0 0}
+.cta.ghost{background:transparent;border:1.5px solid #3A5566}
+.cta:hover{filter:brightness(1.1)}
+.nextcard{background:#0F2531;border:1px solid #23404F;border-radius:14px;padding:20px}
+.nextcard .lab{color:#7FB99F;font-size:11px;font-weight:800;letter-spacing:.12em}
+.matchline{display:flex;align-items:center;justify-content:space-between;margin:16px 0}
+.team{display:flex;flex-direction:column;align-items:center;gap:6px;width:38%}
+.badge{width:46px;height:46px;border-radius:50%;background:var(--green);display:grid;place-items:center;
+  font-weight:800;color:#fff;font-size:14px}
+.badge.b2{background:var(--gold)}
+.team span{font-size:12.5px;font-weight:700;text-align:center}
+.vs{color:#7FB99F;font-weight:800;font-size:13px}
+.nextcard .meta{color:#8FA6B2;font-size:12px;text-align:center}
+.countdown{display:flex;justify-content:center;gap:10px;margin-top:14px}
+.countdown div{background:#15303F;border-radius:8px;padding:8px 10px;text-align:center;min-width:56px}
+.countdown b{font-size:18px;display:block}
+.countdown small{color:#8FA6B2;font-size:10px;text-transform:uppercase}
+
+/* ---------- sections ---------- */
+section{padding:38px 0}
+.sectitle{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.sectitle .bar{width:26px;height:5px;background:var(--green);border-radius:3px}
+.sectitle h2{font-size:21px}
+.sectitle .more{margin-left:auto;font-size:13px;font-weight:700;color:var(--green)}
+
+/* filtres sport */
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.chip{border:1.5px solid var(--faint);background:var(--paper);border-radius:999px;
+  padding:7px 16px;font-size:13px;font-weight:600;color:var(--slate);cursor:pointer}
+.chip.on{background:var(--green);border-color:var(--green);color:#fff}
+
+/* scores */
+.scores{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.scard{background:var(--paper);border-radius:12px;padding:14px 16px;box-shadow:0 1px 4px rgba(16,24,32,.06)}
+.scard .comp{font-size:10.5px;font-weight:800;color:var(--green);letter-spacing:.08em;text-transform:uppercase}
+.scard .row{display:flex;justify-content:space-between;align-items:center;margin-top:9px;font-size:14px;font-weight:600}
+.scard .row b{font-size:16px}
+.scard .st{margin-top:9px;font-size:11px;color:var(--grey)}
+.scard .st .fin{color:var(--red);font-weight:700}
+
+/* replays */
+.videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.vcard{background:var(--paper);border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(16,24,32,.06)}
+.vcard .frame{aspect-ratio:16/9;background:var(--navy);position:relative}
+.vcard iframe{width:100%;height:100%;border:0}
+.vcard .ph{position:absolute;inset:0;display:grid;place-items:center;color:#7FB99F;
+  font-size:13px;font-weight:700;text-align:center;padding:0 18px}
+.vcard .body{padding:12px 14px}
+.vcard .tag{display:inline-block;background:var(--mint);color:var(--green);font-size:10.5px;
+  font-weight:800;border-radius:6px;padding:3px 8px;letter-spacing:.05em}
+.vcard h3{font-size:14.5px;margin:8px 0 4px}
+.vcard p{font-size:12px;color:var(--grey)}
+
+/* calendrier */
+table.cal{width:100%;border-collapse:collapse;background:var(--paper);border-radius:12px;overflow:hidden;
+  box-shadow:0 1px 4px rgba(16,24,32,.06);font-size:13.5px}
+.cal th{background:var(--navy);color:#fff;text-align:left;padding:11px 14px;font-size:12px;letter-spacing:.05em}
+.cal td{padding:11px 14px;border-top:1px solid var(--faint)}
+.cal .sporttag{font-size:10.5px;font-weight:800;color:#fff;border-radius:6px;padding:3px 8px}
+.cal tr:hover{background:var(--mint)}
+.livepill{background:var(--red);color:#fff;font-size:10.5px;font-weight:800;border-radius:999px;padding:3px 9px}
+@media(max-width:640px){.cal .hide-m{display:none}}
+
+/* classement */
+table.rank{width:100%;border-collapse:collapse;background:var(--paper);border-radius:12px;overflow:hidden;
+  box-shadow:0 1px 4px rgba(16,24,32,.06);font-size:13.5px}
+.rank th{background:var(--green);color:#fff;text-align:center;padding:10px 8px;font-size:11.5px}
+.rank th:nth-child(2){text-align:left}
+.rank td{padding:9px 8px;border-top:1px solid var(--faint);text-align:center}
+.rank td:nth-child(2){text-align:left;font-weight:600}
+.rank tr:first-child td{background:var(--mint)}
+.rank .pos{font-weight:800;color:var(--green)}
+
+/* sponsors */
+.sponsor-strip{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:24px}
+.slot{background:var(--paper);border:1.5px dashed var(--faint);border-radius:12px;width:150px;height:64px;
+  display:grid;place-items:center;color:var(--grey);font-size:11.5px;font-weight:600;text-align:center;padding:6px}
+.packs{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px}
+.pack{background:var(--paper);border-radius:14px;padding:22px;box-shadow:0 1px 4px rgba(16,24,32,.06)}
+.pack.hl{background:var(--green);color:#fff}
+.pack .nm{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;opacity:.85}
+.pack .pr{font-size:26px;font-weight:800;margin:8px 0 12px}
+.pack ul{list-style:none;font-size:13px}
+.pack li{padding:5px 0 5px 20px;position:relative}
+.pack li::before{content:"";position:absolute;left:0;top:11px;width:8px;height:8px;background:var(--green2);border-radius:2px}
+.pack.hl li::before{background:#fff}
+
+/* newsletter */
+.join{background:var(--navy);border-radius:16px;color:#fff;padding:34px;display:grid;
+  grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
+@media(max-width:820px){.join{grid-template-columns:1fr}}
+.join h2{font-size:22px;margin-bottom:8px}
+.join p{color:#C4D2DA;font-size:14px}
+.join form{display:flex;gap:8px}
+.join input{flex:1;border:0;border-radius:10px;padding:13px 14px;font-size:14px}
+.join button{background:var(--green);border:0;color:#fff;font-weight:700;border-radius:10px;
+  padding:13px 20px;font-size:14px;cursor:pointer}
+.socials{display:flex;gap:10px;margin-top:14px}
+.socials a{background:#22404F;border-radius:9px;padding:9px 14px;font-size:12.5px;font-weight:700;color:#C4D2DA}
+.socials a:hover{background:var(--green);color:#fff}
+
+/* footer */
+footer{background:#0C1B24;color:#8FA6B2;padding:28px 0;font-size:12.5px;margin-top:40px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+.note{font-size:11px;color:var(--grey);margin-top:10px}
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top">
+      <span class="mark">K</span>
+      <span><b>KIANJA</b><small>ny lalao rehetra — tout le sport malgache</small></span>
+    </a>
+    <button class="burger" onclick="document.querySelector('.menu').classList.toggle('open')">☰</button>
+    <nav class="menu">
+      <a class="item on" href="#top">Accueil</a>
+      <a class="item" href="#replays">Direct &amp; Replays</a>
+      <a class="item" href="#calendrier">Calendrier</a>
+      <a class="item" href="#resultats">Résultats</a>
+      <a class="item" href="#classement">Classement</a>
+      <a class="item" href="#sponsors">Sponsors</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ TICKER ============ -->
+<div class="ticker"><div class="wrap" id="ticker"></div></div>
+
+<!-- ============ HERO ============ -->
+<div class="hero" id="top">
+  <div class="wrap grid">
+    <div>
+      <div class="kicker">Le premier média 100 % sport malgache</div>
+      <h1>Vos championnats, filmés comme à la télé. Gratuits, sur votre téléphone.</h1>
+      <p>Football D1, basketball N1A, rugby, volley, boxe : KIANJA capte les matchs officiels
+      chaque week-end et les diffuse en direct et en replay — scores, résumés, classements et statistiques.</p>
+      <a class="cta" href="#replays">▶ Voir les matchs</a>
+      <a class="cta ghost" href="#calendrier">Calendrier du week-end</a>
+    </div>
+    <div class="nextcard">
+      <div class="lab">PROCHAIN DIRECT</div>
+      <div class="matchline" id="nextmatch"></div>
+      <div class="meta" id="nextmeta"></div>
+      <div class="countdown" id="cd"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ RÉSULTATS ============ -->
+<section id="resultats">
+  <div class="wrap">
+    <div class="sectitle"><span class="bar"></span><h2>Derniers résultats</h2></div>
+    <div class="chips" data-target="scores"></div>
+    <div class="scores" id="scores"></div>
+  </div>
+</section>
+
+<!-- ============ REPLAYS ============ -->
+<section id="replays" style="background:var(--paper)">
+  <div class="wrap">
+    <div class="sectitle"><span class="bar"></span><h2>Direct &amp; replays</h2>
+      <a class="more" href="#" onclick="alert('Lien vers votre chaîne YouTube');return false">Toute la chaîne →</a></div>
+    <div class="videos" id="videos"></div>
+    <p class="note">Les directs sont diffusés simultanément sur Facebook et YouTube.
+    Remplacez les identifiants vidéo dans la section DATA du code pour intégrer vos vraies vidéos.</p>
+  </div>
+</section>
+
+<!-- ============ CALENDRIER ============ -->
+<section id="calendrier">
+  <div class="wrap">
+    <div class="sectitle"><span class="bar"></span><h2>Calendrier des matchs</h2></div>
+    <div class="chips" data-target="cal"></div>
+    <table class="cal">
+      <thead><tr><th>Date</th><th>Sport</th><th>Match</th><th class="hide-m">Compétition</th><th class="hide-m">Lieu</th><th>Diffusion</th></tr></thead>
+      <tbody id="calbody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ CLASSEMENT ============ -->
+<section id="classement" style="background:var(--paper)">
+  <div class="wrap">
+    <div class="sectitle"><span class="bar"></span><h2>Classement — Football D1 (poule A)</h2></div>
+    <table class="rank">
+      <thead><tr><th>#</th><th>Équipe</th><th>J</th><th>G</th><th>N</th><th>P</th><th>+/-</th><th>Pts</th></tr></thead>
+      <tbody id="rankbody"></tbody>
+    </table>
+    <p class="note">Classements basket N1A, rugby et volley : ajoutez vos tableaux dans la section DATA.</p>
+  </div>
+</section>
+
+<!-- ============ SPONSORS ============ -->
+<section id="sponsors">
+  <div class="wrap">
+    <div class="sectitle"><span class="bar"></span><h2>Ils rendent les matchs visibles</h2></div>
+    <div class="sponsor-strip">
+      <div class="slot">Votre logo ici<br>Sponsor fondateur</div>
+      <div class="slot">Votre logo ici</div>
+      <div class="slot">Votre logo ici</div>
+      <div class="slot">Votre logo ici</div>
+    </div>
+    <div class="packs">
+      <div class="pack">
+        <div class="nm">Pack Logo</div><div class="pr">500 000 Ar<small style="font-size:13px">/mois</small></div>
+        <ul><li>Logo sur toutes les miniatures</li><li>Mention en description des vidéos</li><li>Rapport d'audience mensuel</li></ul>
+      </div>
+      <div class="pack hl">
+        <div class="nm">Pack Match</div><div class="pr">1 250 000 Ar<small style="font-size:13px">/mois</small></div>
+        <ul><li>« Ce direct vous est présenté par… »</li><li>2 publications dédiées / mois</li><li>Logo à l'écran pendant les lives</li><li>Rapport d'audience détaillé</li></ul>
+      </div>
+      <div class="pack">
+        <div class="nm">Pack Sport exclusif</div><div class="pr">2 500 000 Ar<small style="font-size:13px">/mois</small></div>
+        <ul><li>« Le basket by [votre marque] »</li><li>Exclusivité sur un sport entier</li><li>Présence sur tous les contenus du sport</li><li>Activation terrain (jeu mi-temps)</li></ul>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:18px">
+      <a class="cta" style="background:var(--navy)" href="mailto:contact@kianja.mg?subject=Devenir sponsor KIANJA">Devenir sponsor →</a>
+    </p>
+  </div>
+</section>
+
+<!-- ============ NEWSLETTER ============ -->
+<section>
+  <div class="wrap">
+    <div class="join">
+      <div>
+        <h2>Ne ratez plus un seul match</h2>
+        <p>Recevez le programme du week-end et les résumés de la semaine. Rejoignez aussi la communauté sur les réseaux.</p>
+        <div class="socials">
+          <a href="#" title="Remplacer par votre page">Facebook</a>
+          <a href="#">YouTube</a>
+          <a href="#">TikTok</a>
+          <a href="#">Instagram</a>
+          <a href="#">WhatsApp</a>
+        </div>
+      </div>
+      <form onsubmit="alert('Connectez ce formulaire à votre outil d\'emailing (Brevo, Mailchimp…) ou à un Google Form');return false">
+        <input type="email" placeholder="Votre adresse email" required>
+        <button>S'abonner</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><b style="color:#fff">KIANJA</b> — le média du sport malgache · Antananarivo</div>
+    <div>contact@kianja.mg · +261 XX XX XXX XX</div>
+    <div>© 2026 KIANJA. Tous droits réservés.</div>
+  </div>
+</footer>
+
+<script>
+/* ================================================================
+   DATA — MODIFIEZ ICI : c'est la seule section à éditer au quotidien
+   ================================================================ */
+const SPORTS = {
+  foot:   {label:"Football",  color:"#0B6B45"},
+  basket: {label:"Basketball",color:"#15303F"},
+  rugby:  {label:"Rugby",     color:"#C89B3C"},
+  volley: {label:"Volley",    color:"#12925F"},
+  boxe:   {label:"Boxe",      color:"#D8432F"},
+};
+
+/* Prochain direct (affiché dans le hero) */
+const NEXT = {
+  teamA:"AS Adema", teamB:"CFFA", initA:"ADE", initB:"CFF",
+  comp:"Football D1 · Journée 12", lieu:"Stade d'Alarobia, Antananarivo",
+  date:"2026-07-19T14:00:00+03:00"
+};
+
+/* Derniers résultats */
+const RESULTS = [
+  {sport:"foot",  comp:"D1 · J11", a:"Elgeco Plus", sa:2, b:"Fosa Juniors", sb:1, st:"Terminé · dim. 12 juil."},
+  {sport:"foot",  comp:"D1 · J11", a:"Disciples FC", sa:0, b:"AS Fanalamanga", sb:0, st:"Terminé · dim. 12 juil."},
+  {sport:"basket",comp:"N1A · Phase 2", a:"GNBC", sa:78, b:"COSPN", sb:71, st:"Terminé · sam. 11 juil."},
+  {sport:"basket",comp:"N1A · Phase 2", a:"MB2ALL", sa:84, b:"ASA", sb:80, st:"Terminé · sam. 11 juil."},
+  {sport:"rugby", comp:"Championnat", a:"3FB", sa:22, b:"Cosfa", sb:17, st:"Terminé · dim. 12 juil."},
+  {sport:"volley",comp:"Championnat", a:"GNVB", sa:3, b:"ASI", sb:1, st:"Terminé · sam. 11 juil."},
+];
+
+/* Replays — mettez l'ID YouTube réel (la partie après watch?v=) */
+const VIDEOS = [
+  {sport:"foot",  yt:"", tag:"RÉSUMÉ · 8 MIN", title:"Elgeco Plus 2-1 Fosa Juniors — le résumé", desc:"Football D1 · Journée 11"},
+  {sport:"basket",yt:"", tag:"MATCH COMPLET", title:"GNBC vs COSPN — replay intégral", desc:"Basketball N1A · Phase 2"},
+  {sport:"foot",  yt:"", tag:"TOP ACTIONS", title:"Le top 5 du week-end", desc:"Toutes compétitions"},
+];
+
+/* Matchs à venir */
+const CALENDAR = [
+  {date:"Sam. 18 juil. · 14h00", sport:"basket", m:"GNBC vs MB2ALL", comp:"N1A · Phase 2", lieu:"Palais des Sports Mahamasina", live:true},
+  {date:"Sam. 18 juil. · 16h00", sport:"boxe",   m:"Gala national — 6 combats", comp:"Championnat national", lieu:"Antananarivo", live:false},
+  {date:"Dim. 19 juil. · 14h00", sport:"foot",   m:"AS Adema vs CFFA", comp:"D1 · Journée 12", lieu:"Stade d'Alarobia", live:true},
+  {date:"Dim. 19 juil. · 15h00", sport:"rugby",  m:"Cosfa vs FTM", comp:"Championnat", lieu:"Stade Makis Andohatapenaka", live:true},
+  {date:"Dim. 19 juil. · 10h00", sport:"volley", m:"GNVB vs Squale", comp:"Championnat", lieu:"Gymnase Ankorondrano", live:false},
+];
+
+/* Classement foot D1 (exemple) */
+const RANKING = [
+  ["Elgeco Plus",11,8,2,1,"+14",26],["AS Adema",11,7,3,1,"+11",24],
+  ["Fosa Juniors",11,7,1,3,"+8",22],["CFFA",11,6,2,3,"+6",20],
+  ["Disciples FC",11,4,4,3,"+2",16],["AS Fanalamanga",11,3,3,5,"-4",12],
+  ["Ajesaia",11,2,3,6,"-9",9],["Mama FC",11,1,2,8,"-18",5],
+];
+
+/* ================================================================
+   RENDU — ne rien modifier sous cette ligne
+   ================================================================ */
+const $ = s => document.querySelector(s);
+
+/* ticker */
+$("#ticker").innerHTML =
+  '<span><span class="dotlive"></span><b>DIMANCHE 14H</b> — AS Adema vs CFFA en direct</span>' +
+  RESULTS.slice(0,4).map(r=>`<span><b>${SPORTS[r.sport].label}</b> : ${r.a} ${r.sa}-${r.sb} ${r.b}</span>`).join("");
+
+/* hero — prochain match + compte à rebours */
+$("#nextmatch").innerHTML = `
+  <div class="team"><div class="badge">${NEXT.initA}</div><span>${NEXT.teamA}</span></div>
+  <div class="vs">VS</div>
+  <div class="team"><div class="badge b2">${NEXT.initB}</div><span>${NEXT.teamB}</span></div>`;
+$("#nextmeta").textContent = `${NEXT.comp} — ${NEXT.lieu}`;
+function tick(){
+  const d = new Date(NEXT.date) - new Date();
+  if (d < 0){ $("#cd").innerHTML = '<div><b style="color:#FF5B49">EN DIRECT</b><small>maintenant</small></div>'; return; }
+  const j=Math.floor(d/864e5), h=Math.floor(d%864e5/36e5), m=Math.floor(d%36e5/6e4), s=Math.floor(d%6e4/1e3);
+  $("#cd").innerHTML = [[j,"jours"],[h,"heures"],[m,"min"],[s,"sec"]]
+    .map(([v,l])=>`<div><b>${String(v).padStart(2,"0")}</b><small>${l}</small></div>`).join("");
+}
+tick(); setInterval(tick,1000);
+
+/* filtres sport (chips) */
+document.querySelectorAll(".chips").forEach(box=>{
+  const target = box.dataset.target;
+  box.innerHTML = '<button class="chip on" data-s="all">Tous</button>' +
+    Object.entries(SPORTS).map(([k,v])=>`<button class="chip" data-s="${k}">${v.label}</button>`).join("");
+  box.addEventListener("click",e=>{
+    if(!e.target.classList.contains("chip")) return;
+    box.querySelectorAll(".chip").forEach(c=>c.classList.remove("on"));
+    e.target.classList.add("on");
+    render(target, e.target.dataset.s);
+  });
+});
+
+function render(what, filter="all"){
+  if (what==="scores"){
+    $("#scores").innerHTML = RESULTS.filter(r=>filter==="all"||r.sport===filter).map(r=>`
+      <div class="scard">
+        <div class="comp">${SPORTS[r.sport].label} — ${r.comp}</div>
+        <div class="row"><span>${r.a}</span><b>${r.sa}</b></div>
+        <div class="row"><span>${r.b}</span><b>${r.sb}</b></div>
+        <div class="st"><span class="fin">TERMINÉ</span> · ${r.st.replace("Terminé · ","")}</div>
+      </div>`).join("") || '<p class="note">Aucun résultat pour ce sport cette semaine.</p>';
+  }
+  if (what==="cal"){
+    $("#calbody").innerHTML = CALENDAR.filter(r=>filter==="all"||r.sport===filter).map(r=>`
+      <tr><td><b>${r.date}</b></td>
+      <td><span class="sporttag" style="background:${SPORTS[r.sport].color}">${SPORTS[r.sport].label}</span></td>
+      <td><b>${r.m}</b></td><td class="hide-m">${r.comp}</td><td class="hide-m">${r.lieu}</td>
+      <td>${r.live?'<span class="livepill">● DIRECT</span>':'Résumé le soir'}</td></tr>`).join("");
+  }
+}
+render("scores"); render("cal");
+
+/* replays */
+$("#videos").innerHTML = VIDEOS.map(v=>`
+  <div class="vcard">
+    <div class="frame">${v.yt
+      ? `<iframe src="https://www.youtube.com/embed/${v.yt}" allowfullscreen loading="lazy"></iframe>`
+      : `<div class="ph">▶<br>Votre vidéo YouTube ici<br><small style="color:#5B7A8A">(ajoutez l'ID dans la section DATA)</small></div>`}
+    </div>
+    <div class="body"><span class="tag">${v.tag}</span><h3>${v.title}</h3><p>${v.desc}</p></div>
+  </div>`).join("");
+
+/* classement */
+$("#rankbody").innerHTML = RANKING.map((r,i)=>`
+  <tr><td class="pos">${i+1}</td>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("");
+</script>
+</body>
+</html>
