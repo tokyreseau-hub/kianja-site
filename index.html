@@ -241,6 +241,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
     <nav class="menu">
       <a class="item on" href="#top">Accueil</a>
       <a class="item" href="#championnat">Championnat</a>
+      <a class="item" href="#n1a">Basket N1A</a>
       <a class="item" href="#replays">Direct &amp; Replays</a>
       <a class="item" href="#calendrier">Calendrier</a>
       <a class="item" href="#resultats">Résultats</a>
@@ -289,6 +290,21 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
     <div id="pflview"></div>
     <p class="note" style="color:#8FA6B2">Saison complète : 98 matchs de conférence + phase finale en aller-retour.
     Forme = 5 derniers matchs (vert : victoire, gris : nul, rouge : défaite).</p>
+  </div>
+</section>
+
+<!-- ============ BASKETBALL N1A ============ -->
+<section id="n1a" class="pfl" style="border-top:1px solid #1B3542;background:linear-gradient(160deg,#0C1F2A,var(--navy))">
+  <div class="wrap">
+    <div class="sectitle"><span class="bar" style="background:var(--gold)"></span><h2>Basketball N1A 2026 — Phase 1</h2>
+      <span class="champbadge" style="background:var(--red);color:#fff">Phase finale fin sept.</span></div>
+    <div class="tabs" id="n1atabs">
+      <button class="tab on" data-v="h">Hommes</button>
+      <button class="tab" data-v="f">Dames</button>
+    </div>
+    <div id="n1aview"></div>
+    <p class="note" style="color:#8FA6B2">12 équipes engagées (hommes et dames). Phase 1 en deux zones, puis poule unique croisée
+    à Antananarivo : les 4 premiers en demi-finales. Sources : FMBB, L'Express de Madagascar, 2424.mg (avril-mai 2026).</p>
   </div>
 </section>
 
@@ -731,6 +747,84 @@ function pflRender(){
     </div>`;
 }
 pflRender();
+
+/* ================================================================
+   BASKETBALL N1A 2026 — phase 1 (sources : FMBB, L'Express, 2424.mg)
+   ================================================================ */
+const N1A = {
+  h:{
+    centre:{titre:"Zone Centre · Antsirabe",dates:"11 – 19 avril · Gymnase Vatofotsy",
+      scores:[["GNBC Analamanga",107,"Fandrasa H. Matsiatra",68,""],["COSFA Analamanga",75,"ASCUT Atsinanana",70,""]],
+      bilan:["GNBC Analamanga — 4 pts (+70)","MBC Atsinanana — 4 pts (+43)","ASCUT Atsinanana — 3 pts (+22)",
+             "COSFA Analamanga — 3 pts (−26)","SBC Vakinankaratra — 2 pts (−53)","Fandrasa H. Matsiatra — 2 pts (−56)"],
+      note:"Classement après 2 journées"},
+    nord:{titre:"Zone Nord · Mahajanga",dates:"25 avril – 3 mai · Complexe sportif",
+      scores:[["COSPN",91,"ASCUM Mahajanga",55,"Finale"],["BCB Boeny",80,"RBC Boeny",69,"3e place"],["RBC Boeny",84,"COSPN",75,"Poule"]],
+      bilan:["🏆 COSPN (tenant du titre) remporte la Coupe de la Ligue","RBC Boeny a dominé la poule avant de chuter en demi-finale"],
+      note:""},
+    top5:["RBC Boeny","GNBC Analamanga","MBC Atsinanana","COSPN — tenant du titre","ASCUT Atsinanana"]
+  },
+  f:{
+    centre:{titre:"Zone Centre · Antsirabe",dates:"11 – 19 avril · Gymnase Vatofotsy",
+      scores:[["MB2ALL Analamanga",48,"JEA Vakinankaratra",47,""]],
+      bilan:["MB2ALL Analamanga — 4 pts (+63)","Ankaratra Vakinankaratra — 4 pts (+49)","JEA Vakinankaratra — 3 pts (+33)",
+             "JCBA Analamanga — 3 pts (−12)","EBF Haute Matsiatra — 2 pts (−37)","Varsity Anosy — 2 pts (−96)"],
+      note:"Classement après 2 journées"},
+    nord:{titre:"Zone Nord · Mahajanga",dates:"25 avril – 3 mai · Complexe sportif",
+      scores:[["GNBC Analamanga",73,"BC Somava",62,"Finale"],["Dunamis",58,"ASSM Analamanga",44,"3e place"]],
+      bilan:["🏆 GNBC invaincue, remporte la Coupe de la Ligue","BC Somava, révélation du tournoi"],
+      note:""},
+    top5:["MB2ALL Analamanga","GNBC Analamanga","JEA Vakinankaratra","Ankaratra Vakinankaratra","BC Somava"]
+  }
+};
+
+let n1aV = "h";
+document.getElementById("n1atabs").addEventListener("click", e=>{
+  if(!e.target.classList.contains("tab")) return;
+  document.querySelectorAll("#n1atabs .tab").forEach(t=>t.classList.remove("on"));
+  e.target.classList.add("on");
+  n1aV = e.target.dataset.v;
+  n1aRender();
+});
+
+function n1aScore(s){
+  const w1 = s[1]>s[3], w2 = s[3]>s[1];
+  return `<div class="tie">
+    ${s[4]?`<div style="font-size:10px;color:#7FB99F;font-weight:800;letter-spacing:.08em;text-transform:uppercase">${s[4]}</div>`:""}
+    <div class="tm ${w1?'win':''}"><span>${s[0]}</span><b>${s[1]}</b></div>
+    <div class="tm ${w2?'win':''}"><span>${s[2]}</span><b>${s[3]}</b></div>
+  </div>`;
+}
+function n1aZone(z){
+  return `<div class="bcol"><h3>${z.titre}</h3>
+    <div style="text-align:center;font-size:11px;color:#8FA6B2;margin:-6px 0 10px">${z.dates}</div>
+    ${z.scores.map(n1aScore).join("")}
+    <div class="tie" style="font-size:12px">
+      ${z.bilan.map(b=>`<div style="padding:2.5px 0">${b}</div>`).join("")}
+      ${z.note?`<div class="legs">${z.note}</div>`:""}
+    </div>
+  </div>`;
+}
+function n1aRender(){
+  const d = N1A[n1aV];
+  document.getElementById("n1aview").innerHTML = `<div class="bracket" style="align-items:start">
+    ${n1aZone(d.centre)}
+    ${n1aZone(d.nord)}
+    <div class="bcol"><h3>Classement provisoire FMBB</h3>
+      <div class="tie">${d.top5.map((t,i)=>`
+        <div class="tm ${i===0?'win':''}"><span><b style="color:${i===0?'#2EAE6E':'#8FA6B2'};margin-right:8px">${i+1}</b>${t}</span></div>`).join("")}
+        <div class="legs">Après les phases d'Antsirabe et de Mahajanga</div>
+      </div>
+      <div class="finalcard" style="margin-top:10px">
+        <div class="flab">PHASE FINALE · ANTANANARIVO</div>
+        <div class="fteams">Poule unique croisée Centre × Nord</div>
+        <div class="fdate" style="margin-top:6px">Fin septembre – début octobre 2026<br>Les 4 premiers en demi-finales, puis finale</div>
+        <div class="fchamp" style="background:#fff">🎥 KIANJA filmera la phase finale</div>
+      </div>
+    </div>
+  </div>`;
+}
+n1aRender();
 </script>
 </body>
 </html>
