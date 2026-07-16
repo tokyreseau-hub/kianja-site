@@ -111,6 +111,56 @@ section{padding:38px 0}
 .scard .st{margin-top:9px;font-size:11px;color:var(--grey)}
 .scard .st .fin{color:var(--red);font-weight:700}
 
+/* ---------- championnat PFL (style chaîne sportive) ---------- */
+.pfl{background:linear-gradient(160deg,var(--navy),#0C1F2A);color:#fff}
+.pfl .sectitle h2{color:#fff}
+.champbadge{margin-left:auto;background:var(--gold);color:#101820;font-weight:800;font-size:12px;
+  padding:6px 12px;border-radius:999px;white-space:nowrap}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+.tab{border:1.5px solid #23404F;background:transparent;color:#C4D2DA;border-radius:999px;
+  padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer}
+.tab.on{background:var(--green);border-color:var(--green);color:#fff}
+.jnav{display:flex;align-items:center;justify-content:center;gap:16px;margin:4px 0 16px}
+.jnav button{background:#15303F;border:1px solid #23404F;color:#fff;width:36px;height:36px;
+  border-radius:50%;font-size:16px;cursor:pointer;line-height:1}
+.jnav button:hover:not(:disabled){background:var(--green)}
+.jnav button:disabled{opacity:.25;cursor:default}
+.jnav .jlab{font-weight:800;font-size:15px;letter-spacing:.04em;min-width:130px;text-align:center}
+.mlist{display:grid;gap:8px;max-width:580px;margin:0 auto 28px}
+.mrow{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;
+  background:#0F2531;border:1px solid #23404F;border-radius:10px;padding:11px 14px 8px}
+.mrow .h{text-align:right;font-weight:700;font-size:13.5px}
+.mrow .a{text-align:left;font-weight:700;font-size:13.5px}
+.mrow .sc{background:var(--green);border-radius:7px;padding:4px 11px;font-weight:800;font-size:15px;white-space:nowrap}
+.mrow .sc.int{background:#5B4A1E}
+.mrow .dt{grid-column:1/4;text-align:center;font-size:10.5px;color:#8FA6B2}
+table.pfltab{width:100%;border-collapse:collapse;font-size:13px;background:#0F2531;border-radius:12px;overflow:hidden}
+.pfltab th{background:#15303F;color:#8FA6B2;padding:9px 6px;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em}
+.pfltab td{padding:8px 6px;border-top:1px solid #1B3542;text-align:center}
+.pfltab td.tn{text-align:left;font-weight:700}
+.pfltab .pts{font-weight:800;color:#fff}
+.pfltab tr.zpo td:first-child{box-shadow:inset 3px 0 0 var(--green2)}
+.pfltab tr.zrel td:first-child{box-shadow:inset 3px 0 0 var(--red)}
+.legend{display:flex;gap:18px;font-size:11px;color:#8FA6B2;margin-top:10px;flex-wrap:wrap}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+.fdot{display:inline-block;width:9px;height:9px;border-radius:50%;margin:0 1.5px}
+.fdot.w{background:#2EAE6E}.fdot.d{background:#5B7A8A}.fdot.l{background:#D8432F}
+@media(max-width:640px){.pfltab .hide-m{display:none}}
+.bracket{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:center}
+@media(max-width:720px){.bracket{grid-template-columns:1fr}}
+.bcol h3{font-size:12px;color:#7FB99F;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;text-align:center}
+.tie{background:#0F2531;border:1px solid #23404F;border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:13px}
+.tie .tm{display:flex;justify-content:space-between;padding:3px 0}
+.tie .tm.win{color:#2EAE6E;font-weight:800}
+.tie .legs{font-size:10.5px;color:#8FA6B2;margin-top:5px;border-top:1px solid #1B3542;padding-top:5px}
+.finalcard{background:linear-gradient(135deg,var(--green),#0A5738);border-radius:12px;padding:20px;text-align:center}
+.finalcard .flab{font-size:11px;font-weight:800;letter-spacing:.12em;color:#BFE3D2}
+.finalcard .fteams{font-size:15px;font-weight:700;margin-top:8px}
+.finalcard .fscore{font-size:28px;font-weight:800;margin:6px 0}
+.finalcard .fdate{font-size:11px;color:#BFE3D2}
+.finalcard .fchamp{background:var(--gold);color:#101820;display:inline-block;border-radius:999px;
+  padding:6px 16px;font-weight:800;font-size:12.5px;margin-top:10px}
+
 /* replays */
 .videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
 .vcard{background:var(--paper);border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(16,24,32,.06)}
@@ -190,6 +240,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
     <button class="burger" onclick="document.querySelector('.menu').classList.toggle('open')">☰</button>
     <nav class="menu">
       <a class="item on" href="#top">Accueil</a>
+      <a class="item" href="#championnat">Championnat</a>
       <a class="item" href="#replays">Direct &amp; Replays</a>
       <a class="item" href="#calendrier">Calendrier</a>
       <a class="item" href="#resultats">Résultats</a>
@@ -224,6 +275,22 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
     </div>
   </div>
 </div>
+
+<!-- ============ CHAMPIONNAT PFL ============ -->
+<section id="championnat" class="pfl">
+  <div class="wrap">
+    <div class="sectitle"><span class="bar"></span><h2>Pure Play Football League 2025-26</h2>
+      <span class="champbadge">🏆 CFFA champion</span></div>
+    <div class="tabs" id="pfltabs">
+      <button class="tab on" data-v="P">Phase finale</button>
+      <button class="tab" data-v="N">Conférence Nord</button>
+      <button class="tab" data-v="S">Conférence Sud</button>
+    </div>
+    <div id="pflview"></div>
+    <p class="note" style="color:#8FA6B2">Saison complète : 98 matchs de conférence + phase finale en aller-retour.
+    Forme = 5 derniers matchs (vert : victoire, gris : nul, rouge : défaite).</p>
+  </div>
+</section>
 
 <!-- ============ RÉSULTATS ============ -->
 <section id="resultats">
@@ -367,7 +434,7 @@ const NEXT = {
 const RESULTS = [
   {sport:"foot",  comp:"Coupe de Madagascar · Quart", a:"Cosfa", sa:1, b:"CFFA", sb:0, st:"juil. 2026"},
   {sport:"foot",  comp:"Coupe de Madagascar · Quart", a:"AS Sainte-Anne (5 t.a.b. 4)", sa:0, b:"Elgeco Plus", sb:0, st:"juil. 2026"},
-  {sport:"foot",  comp:"Finale PFL · 29 juin", a:"CFFA — champion 2026", sa:2, b:"Ajesaia", sb:1, st:"Stade By-Pass · 29 juin"},
+  {sport:"foot",  comp:"Finale PFL", a:"CFFA — champion 2026", sa:2, b:"Ajesaia", sb:1, st:"fin juin 2026"},
   {sport:"rugby", comp:"XXL Energy Top 12 · J9", a:"TFA Anatihazo", sa:23, b:"FTM Manjakaray", sb:22, st:"Stade Makis · le champion battu"},
   {sport:"rugby", comp:"XXL Energy Top 12 · J9", a:"US Ankadifotsy", sa:24, b:"UAS Cheminots", sb:9, st:"Stade Makis Andohatapenaka"},
   {sport:"basket",comp:"N1A · Phase 1 Nord (finale)", a:"COSPN", sa:91, b:"ASCUM Mahajanga", sb:55, st:"Mahajanga · mai 2026"},
@@ -408,6 +475,72 @@ const RANKING = [
 ];
 
 /* ================================================================
+   DATA CHAMPIONNAT PFL — saison complète 2025-26 (source : Sofascore)
+   Équipes (index utilisé dans PFL_MATCHES) :
+   ================================================================ */
+const PFL_TEAMS = ["Cosfa","Ajesaia","Inate FC Rouge","Fosa Juniors","TGBC Académie","Tsaramandroso FC","Clinique Zanatany","Disciples FC","Elgeco Plus","AS Sainte-Anne","CFFA","Mama FC","USCA Foot","Antimo Record","COSPN"];
+
+/* [journée, conférence N/S/P, timestamp, dom, ext, buts dom, buts ext, 1 = interrompu] */
+const PFL_MATCHES = [
+[1,"S",1766314800,8,9,1,1],[1,"S",1766323800,10,12,1,0],[1,"S",1766323800,7,11,1,0],[1,"S",1768129200,13,14,0,1],
+[1,"N",1768131000,4,0,1,2],[1,"N",1768978800,3,5,1,1],[1,"N",1771421400,2,6,2,1],
+[2,"N",1768640400,5,6,3,0],[2,"S",1768743000,14,9,0,3],[2,"S",1768743000,13,7,1,2],[2,"S",1768743000,10,11,0,1],
+[2,"N",1768743000,4,1,1,2],[2,"N",1768743000,3,2,1,0],[2,"S",1768915800,8,12,3,2],
+[3,"S",1769340600,14,8,0,1],[3,"S",1769347800,7,12,3,1],[3,"S",1769434200,9,11,2,0],[3,"N",1769520600,0,1,2,0],
+[3,"S",1771421400,10,13,3,0],[3,"N",1771767000,3,6,4,3],[3,"N",1776598200,5,2,2,1],[3,"N",1777807800,4,5,1,1],
+[4,"S",1769866200,7,8,1,0],[4,"S",1770125400,11,13,5,2],[4,"S",1770125400,10,14,3,1],[4,"N",1770195600,1,6,3,1],
+[4,"N",1770202800,0,5,6,3],[4,"S",1770211800,9,12,1,0],[4,"N",1770211800,3,4,1,1],
+[5,"N",1770462000,2,4,1,0],[5,"N",1770541200,0,3,5,3],[5,"N",1770548400,1,5,3,0],[5,"S",1770557400,12,13,1,1],
+[5,"S",1770557400,11,14,1,0],[5,"S",1770557400,9,7,0,5],[5,"S",1770557400,8,10,4,2],[5,"N",1770903000,4,6,3,1],[5,"N",1770903000,1,2,0,2],
+[6,"S",1771162200,14,7,2,3],[6,"S",1771162200,10,9,1,1],[6,"S",1771162200,11,12,0,0],[6,"S",1771162200,8,13,1,0],
+[6,"N",1771162200,0,6,2,0],[6,"N",1771162200,1,3,1,0],
+[7,"S",1771680600,7,10,1,1],[7,"S",1771767000,9,13,3,1],[7,"S",1771767000,12,14,3,1],[7,"S",1771767000,11,8,1,1],
+[7,"N",1771767000,2,0,4,2],[7,"N",1772960400,5,0,0,3],[7,"N",1772976600,6,4,1,3],[7,"N",1772976600,2,1,0,0],
+[8,"S",1772883000,13,9,3,0],[8,"S",1772883000,8,11,2,1],[8,"S",1772960400,14,12,1,3],[8,"S",1772969400,10,7,0,1],
+[8,"N",1773408600,3,0,2,2],[8,"N",1773581400,4,2,1,0],
+[9,"S",1773495000,7,14,1,1],[9,"S",1773581400,9,10,2,1],[9,"S",1773581400,12,11,0,0],[9,"S",1773581400,13,8,1,3],
+[9,"N",1773927000,6,0,0,3],[9,"N",1774186200,1,4,3,1],
+[10,"S",1774099800,7,9,4,2],[10,"S",1774186200,13,12,1,0],[10,"S",1774186200,14,11,1,1],[10,"S",1774186200,10,8,1,1],
+[10,"N",1774186200,6,5,3,4],[10,"N",1774508400,0,4,2,1],[10,"N",1774782000,2,5,1,1],[10,"N",1776510000,3,1,1,1],
+[11,"S",1774611000,14,10,3,6],[11,"S",1774774800,12,9,1,2],[11,"S",1775127600,13,11,1,2],[11,"S",1775129400,8,7,1,1],
+[11,"N",1775977200,1,0,2,2],[11,"N",1775977200,5,3,1,2],[11,"N",1772371800,6,1,1,2],
+[12,"S",1775898000,8,14,3,2],[12,"S",1775984400,11,9,3,0],[12,"S",1775984400,12,7,1,0],[12,"S",1775993400,13,10,1,2],
+[12,"N",1776339000,5,4,0,1],[12,"N",1772026200,6,3,1,4],[12,"N",1777194000,4,3,0,0],[12,"N",1777197600,0,2,1,1],[12,"N",1777374000,5,1,0,3],
+[13,"S",1776502800,12,8,0,0],[13,"S",1776589200,11,10,0,2],[13,"S",1776596400,9,14,5,3],[13,"S",1776848400,7,13,5,1],
+[13,"N",1772285400,2,3,0,0],
+[14,"S",1777186800,14,13,0,1],[14,"S",1777194000,12,10,1,1],[14,"S",1777201200,9,8,0,0],[14,"S",1777203000,7,11,4,0],
+[14,"N",1772631000,6,2,1,6],
+[27,"P",1778929200,9,1,1,2],[27,"P",1779017400,10,0,2,2,1],[27,"P",1779017400,3,7,0,4],[27,"P",1779017400,2,8,1,0],
+[27,"P",1779535800,7,3,1,0],[27,"P",1779966000,8,2,5,2],[27,"P",1780475400,1,9,0,0],[27,"P",1780484400,10,0,2,1],
+[28,"P",1781350200,1,7,1,0],[28,"P",1781436600,10,8,2,1],[28,"P",1781955000,7,1,6,6],[28,"P",1782041400,8,10,1,1],
+[29,"P",1782644400,1,10,1,2]
+];
+
+/* Classements officiels de fin de phase de conférence
+   [pos, équipe, MJ, G, N, P, BP, BC, Pts] */
+const PFL_STANDINGS = {
+  N:[[1,0,12,8,3,1,32,17,27],[2,1,12,7,3,2,20,11,24],[3,2,12,5,4,3,18,10,22],[4,3,12,4,6,2,19,16,18],
+     [5,4,12,4,3,5,14,14,15],[6,5,12,3,3,6,16,25,9],[7,6,12,0,0,12,13,39,0]],
+  S:[[1,7,14,10,3,1,32,11,33],[2,8,14,7,6,1,21,13,27],[3,9,14,7,3,4,22,23,24],[4,10,14,6,4,4,24,17,22],
+     [5,11,14,5,4,5,15,16,19],[6,12,14,3,5,6,13,15,14],[7,13,14,3,1,10,14,28,10],[8,14,14,1,2,11,16,34,5]]
+};
+
+/* Phase finale (aller-retour) */
+const PFL_BRACKET = {
+  qf:[
+    {a:9, b:1, l1:"1-2", l2:"0-0", agg:"1-2", w:1},
+    {a:10,b:0, l1:"2-2 (arrêté)", l2:"2-1", agg:"", w:10},
+    {a:3, b:7, l1:"0-4", l2:"0-1", agg:"0-5", w:7},
+    {a:2, b:8, l1:"1-0", l2:"2-5", agg:"3-5", w:8}
+  ],
+  sf:[
+    {a:1, b:7, l1:"1-0", l2:"6-6", agg:"7-6", w:1},
+    {a:10,b:8, l1:"2-1", l2:"1-1", agg:"3-2", w:10}
+  ],
+  f:{a:1, b:10, score:"1-2", w:10, ts:1782644400}
+};
+
+/* ================================================================
    RENDU — ne rien modifier sous cette ligne
    ================================================================ */
 const $ = s => document.querySelector(s);
@@ -415,6 +548,7 @@ const $ = s => document.querySelector(s);
 /* ticker */
 $("#ticker").innerHTML =
   '<span><span class="dotlive"></span><b>MER. 22 JUIL.</b> — Demi-finales de la Coupe de Madagascar</span>' +
+  '<span><b>PFL</b> : CFFA champion de Madagascar 2025-26 🏆</span>' +
   RESULTS.slice(0,4).map(r=>`<span><b>${SPORTS[r.sport].label}</b> : ${r.a} ${r.sa}-${r.sb} ${r.b}</span>`).join("");
 
 /* hero — prochain match + compte à rebours */
@@ -495,6 +629,108 @@ $("#videos").innerHTML = VIDEOS.map(v=>`
 /* palmarès */
 $("#rankbody").innerHTML = RANKING.map(r=>`
   <tr>${r.map((c,i)=>`<td style="text-align:left;${i==0?'font-weight:700':''}">${c}</td>`).join("")}</tr>`).join("");
+
+/* ================================================================
+   CHAMPIONNAT PFL — navigation par journée, classements, phase finale
+   ================================================================ */
+let pflV = "P";
+const pflJ = {N:12, S:14};
+
+document.getElementById("pfltabs").addEventListener("click", e=>{
+  if(!e.target.classList.contains("tab")) return;
+  document.querySelectorAll("#pfltabs .tab").forEach(t=>t.classList.remove("on"));
+  e.target.classList.add("on");
+  pflV = e.target.dataset.v;
+  pflRender();
+});
+
+function pflDate(ts){
+  return new Date(ts*1000).toLocaleDateString("fr-FR",
+    {weekday:"short", day:"numeric", month:"short", timeZone:"Indian/Antananarivo"});
+}
+function pflForm(conf, team){
+  return PFL_MATCHES
+    .filter(m=>m[1]===conf && (m[3]===team||m[4]===team) && m.length<8)
+    .sort((a,b)=>a[2]-b[2]).slice(-5)
+    .map(m=>{
+      const gf = m[3]===team ? m[5] : m[6], ga = m[3]===team ? m[6] : m[5];
+      return gf>ga ? "w" : (gf<ga ? "l" : "d");
+    });
+}
+function pflRounds(conf){
+  return [...new Set(PFL_MATCHES.filter(m=>m[1]===conf).map(m=>m[0]))].sort((a,b)=>a-b);
+}
+window.pflNav = function(dir){
+  const rounds = pflRounds(pflV);
+  const i = rounds.indexOf(pflJ[pflV]) + dir;
+  if(i>=0 && i<rounds.length){ pflJ[pflV]=rounds[i]; pflRender(); }
+};
+
+function pflTie(t){
+  return `<div class="tie">
+    <div class="tm ${t.w===t.a?'win':''}"><span>${PFL_TEAMS[t.a]}</span><span>${t.w===t.a?'✓':''}</span></div>
+    <div class="tm ${t.w===t.b?'win':''}"><span>${PFL_TEAMS[t.b]}</span><span>${t.w===t.b?'✓':''}</span></div>
+    <div class="legs">Aller ${t.l1} · Retour ${t.l2}${t.agg?` · Cumul ${t.agg}`:""}</div>
+  </div>`;
+}
+
+function pflRender(){
+  const el = document.getElementById("pflview");
+  if(pflV==="P"){
+    const F = PFL_BRACKET.f;
+    el.innerHTML = `<div class="bracket">
+      <div class="bcol"><h3>Quarts de finale</h3>${PFL_BRACKET.qf.map(pflTie).join("")}</div>
+      <div class="bcol"><h3>Demi-finales</h3>${PFL_BRACKET.sf.map(pflTie).join("")}</div>
+      <div class="bcol"><h3>Finale</h3>
+        <div class="finalcard">
+          <div class="flab">FINALE · ${pflDate(F.ts)} 2026</div>
+          <div class="fteams">${PFL_TEAMS[F.a]} — ${PFL_TEAMS[F.b]}</div>
+          <div class="fscore">${F.score}</div>
+          <div class="fdate">Les 4 premiers de chaque conférence qualifiés</div>
+          <div class="fchamp">🏆 ${PFL_TEAMS[F.w]} — CHAMPION 2025-26</div>
+        </div>
+      </div>
+    </div>`;
+    return;
+  }
+  const conf = pflV, rounds = pflRounds(conf), j = pflJ[conf];
+  const idx = rounds.indexOf(j);
+  const ms = PFL_MATCHES.filter(m=>m[1]===conf && m[0]===j).sort((a,b)=>a[2]-b[2]);
+  const rows = PFL_STANDINGS[conf];
+  const last = rows.length;
+  el.innerHTML = `
+    <div class="jnav">
+      <button onclick="pflNav(-1)" ${idx===0?"disabled":""}>‹</button>
+      <span class="jlab">Journée ${j} / ${rounds[rounds.length-1]}</span>
+      <button onclick="pflNav(1)" ${idx===rounds.length-1?"disabled":""}>›</button>
+    </div>
+    <div class="mlist">${ms.map(m=>`
+      <div class="mrow">
+        <div class="h">${PFL_TEAMS[m[3]]}</div>
+        <div class="sc ${m.length>7?'int':''}">${m[5]} – ${m[6]}</div>
+        <div class="a">${PFL_TEAMS[m[4]]}</div>
+        <div class="dt">${pflDate(m[2])}${m.length>7?" · match arrêté":""}</div>
+      </div>`).join("")}</div>
+    <table class="pfltab">
+      <thead><tr><th>#</th><th style="text-align:left">Équipe</th><th>MJ</th><th class="hide-m">G</th>
+      <th class="hide-m">N</th><th class="hide-m">P</th><th class="hide-m">BP</th><th class="hide-m">BC</th>
+      <th>+/-</th><th>Pts</th><th>Forme</th></tr></thead>
+      <tbody>${rows.map(r=>{
+        const diff = r[6]-r[7];
+        const zone = r[0]<=4 ? "zpo" : (r[0]===last ? "zrel" : "");
+        const form = pflForm(conf, r[1]).map(f=>`<span class="fdot ${f}"></span>`).join("");
+        return `<tr class="${zone}"><td><b>${r[0]}</b></td><td class="tn">${PFL_TEAMS[r[1]]}</td>
+        <td>${r[2]}</td><td class="hide-m">${r[3]}</td><td class="hide-m">${r[4]}</td><td class="hide-m">${r[5]}</td>
+        <td class="hide-m">${r[6]}</td><td class="hide-m">${r[7]}</td>
+        <td>${diff>0?"+":""}${diff}</td><td class="pts">${r[8]}</td><td>${form}</td></tr>`;
+      }).join("")}</tbody>
+    </table>
+    <div class="legend">
+      <span><i style="background:var(--green2)"></i>Qualifié pour la phase finale</span>
+      <span><i style="background:var(--red)"></i>Relégation</span>
+    </div>`;
+}
+pflRender();
 </script>
 </body>
 </html>
