@@ -164,6 +164,29 @@ table.pfltab{width:100%;border-collapse:collapse;font-size:13px;background:#0F25
 .finalcard .fchamp{background:var(--gold);color:#101820;display:inline-block;border-radius:999px;
   padding:6px 16px;font-weight:800;font-size:12.5px;margin-top:10px}
 
+/* ---------- accueil minimal : sections repliables ---------- */
+.fold{padding:12px 0}
+.fold.open{padding:38px 0}
+.fold .sectitle{cursor:pointer;margin-bottom:0;user-select:none}
+.fold.open .sectitle{margin-bottom:20px}
+.fold .foldbody{display:none}
+.fold.open .foldbody{display:block}
+.fold .sectitle:hover h2{color:var(--green2)}
+.pfl.fold .sectitle:hover h2{color:#7FB99F}
+.sectitle .teaser{margin-left:auto;font-size:12px;font-weight:600;color:var(--grey);text-align:right}
+.pfl .sectitle .teaser{color:#8FA6B2}
+.fold .sectitle .champbadge,.fold .sectitle .more{margin-left:14px}
+.sectitle .chev{font-size:15px;color:var(--grey);transition:transform .2s;margin-left:10px}
+.fold.open .chev{transform:rotate(180deg)}
+@media(max-width:700px){.sectitle .teaser,.fold .sectitle .champbadge{display:none}}
+/* résultats : 3 cartes puis bouton */
+#resultats .chips{display:none}
+#resultats.all .chips{display:flex}
+#resultats:not(.all) .scores .scard:nth-child(n+4){display:none}
+.morebtn{display:block;margin:16px auto 0;background:var(--paper);border:1.5px solid var(--faint);border-radius:999px;
+  padding:9px 22px;font-size:13px;font-weight:700;color:var(--slate);cursor:pointer}
+.morebtn:hover{border-color:var(--green);color:var(--green)}
+
 /* replays */
 .videos{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
 .vcard{background:var(--paper);border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(16,24,32,.06)}
@@ -1110,6 +1133,61 @@ const TOP12 = {
       </div>
     </div>
   </div>`;
+})();
+
+/* ================================================================
+   ACCUEIL MINIMAL — sections repliables + résultats tronqués
+   ================================================================ */
+(function(){
+  const FOLDS = {
+    championnat:"CFFA champion 🏆 · saison complète J1 → finale",
+    n1a:"Phase 1 terminée · phase finale fin septembre",
+    top12:"Cosfa invaincu · barrages à venir",
+    volley:"ASI–GNVB 2 au coude-à-coude (H) · SQUAD leader (F)",
+    tennis:"Akomba : 2 victoires, 1 défaite à Gaborone",
+    replays:"Directs et résumés des 5 sports",
+    calendrier:"Les 12 prochains rendez-vous",
+    classement:"Tous les faits marquants 2025-26"
+  };
+  Object.keys(FOLDS).forEach(id=>{
+    const sec = document.getElementById(id);
+    if(!sec) return;
+    const wrap = sec.querySelector(".wrap");
+    const st = wrap.querySelector(".sectitle");
+    const body = document.createElement("div");
+    body.className = "foldbody";
+    while(st.nextSibling){ body.appendChild(st.nextSibling); }
+    wrap.appendChild(body);
+    sec.classList.add("fold");
+    const tz = document.createElement("span");
+    tz.className = "teaser"; tz.textContent = FOLDS[id];
+    const ch = document.createElement("span");
+    ch.className = "chev"; ch.textContent = "▾";
+    st.appendChild(tz); st.appendChild(ch);
+    st.addEventListener("click", ()=>sec.classList.toggle("open"));
+  });
+  // les liens du menu (et du palmarès) déplient la section visée
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener("click", ()=>{
+      const s = document.getElementById(a.getAttribute("href").slice(1));
+      if(s && s.classList.contains("fold")) s.classList.add("open");
+    });
+  });
+  // ouverture directe via l'URL (#top12, etc.)
+  if(location.hash){
+    const s = document.getElementById(location.hash.slice(1));
+    if(s && s.classList.contains("fold")) s.classList.add("open");
+  }
+  // résultats : 3 cartes + bouton
+  const resSec = document.getElementById("resultats");
+  const btn = document.createElement("button");
+  btn.className = "morebtn";
+  btn.textContent = "Voir les " + RESULTS.length + " derniers résultats";
+  resSec.querySelector(".wrap").appendChild(btn);
+  btn.onclick = ()=>{
+    const all = resSec.classList.toggle("all");
+    btn.textContent = all ? "Réduire" : "Voir les " + RESULTS.length + " derniers résultats";
+  };
 })();
 </script>
 </body>
