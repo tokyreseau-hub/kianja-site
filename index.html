@@ -247,12 +247,12 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
 <!-- ============ CLASSEMENT ============ -->
 <section id="classement" style="background:var(--paper)">
   <div class="wrap">
-    <div class="sectitle"><span class="bar"></span><h2>Classement — Football D1 (poule A)</h2></div>
+    <div class="sectitle"><span class="bar"></span><h2>Palmarès &amp; faits marquants — saison 2025-2026</h2></div>
     <table class="rank">
-      <thead><tr><th>#</th><th>Équipe</th><th>J</th><th>G</th><th>N</th><th>P</th><th>+/-</th><th>Pts</th></tr></thead>
+      <thead><tr><th style="text-align:left">Compétition</th><th style="text-align:left">Résultat</th><th style="text-align:left">Détail</th></tr></thead>
       <tbody id="rankbody"></tbody>
     </table>
-    <p class="note">Classements basket N1A, rugby et volley : ajoutez vos tableaux dans la section DATA.</p>
+    <p class="note">Sources : L'Express de Madagascar, 2424.mg, Midi Madagasikara, allAfrica (juillet 2026). Les classements complets par journée seront publiés ici dès la reprise des championnats.</p>
   </div>
 </section>
 
@@ -326,48 +326,57 @@ const SPORTS = {
   basket: {label:"Basketball",color:"#15303F"},
   rugby:  {label:"Rugby",     color:"#C89B3C"},
   volley: {label:"Volley",    color:"#12925F"},
-  boxe:   {label:"Boxe",      color:"#D8432F"},
+  tennis: {label:"Tennis",    color:"#D8432F"},
 };
 
-/* Prochain direct (affiché dans le hero) */
+/* Prochain direct (affiché dans le hero) — Yas Coupe de Madagascar, demi-finale
+   Source : L'Express de Madagascar / 2424.mg (juillet 2026). Horaire à confirmer. */
 const NEXT = {
-  teamA:"AS Adema", teamB:"CFFA", initA:"ADE", initB:"CFF",
-  comp:"Football D1 · Journée 12", lieu:"Stade d'Alarobia, Antananarivo",
-  date:"2026-07-19T14:00:00+03:00"
+  teamA:"Cosfa", teamB:"FC Rouge", initA:"COS", initB:"ROU",
+  comp:"Yas Coupe de Madagascar · Demi-finale", lieu:"Antananarivo — stade et horaire à confirmer",
+  date:"2026-07-22T14:00:00+03:00"
 };
 
-/* Derniers résultats */
+/* Derniers résultats (réels — sources : L'Express, 2424.mg, Midi Madagasikara) */
 const RESULTS = [
-  {sport:"foot",  comp:"D1 · J11", a:"Elgeco Plus", sa:2, b:"Fosa Juniors", sb:1, st:"Terminé · dim. 12 juil."},
-  {sport:"foot",  comp:"D1 · J11", a:"Disciples FC", sa:0, b:"AS Fanalamanga", sb:0, st:"Terminé · dim. 12 juil."},
-  {sport:"basket",comp:"N1A · Phase 2", a:"GNBC", sa:78, b:"COSPN", sb:71, st:"Terminé · sam. 11 juil."},
-  {sport:"basket",comp:"N1A · Phase 2", a:"MB2ALL", sa:84, b:"ASA", sb:80, st:"Terminé · sam. 11 juil."},
-  {sport:"rugby", comp:"Championnat", a:"3FB", sa:22, b:"Cosfa", sb:17, st:"Terminé · dim. 12 juil."},
-  {sport:"volley",comp:"Championnat", a:"GNVB", sa:3, b:"ASI", sb:1, st:"Terminé · sam. 11 juil."},
+  {sport:"foot",  comp:"Coupe de Madagascar · Quart", a:"Cosfa", sa:1, b:"CFFA", sb:0, st:"juil. 2026"},
+  {sport:"foot",  comp:"Coupe de Madagascar · Quart", a:"AS Sainte-Anne (5 t.a.b. 4)", sa:0, b:"Elgeco Plus", sb:0, st:"juil. 2026"},
+  {sport:"foot",  comp:"Finale PFL · 29 juin", a:"CFFA — champion 2026", sa:2, b:"Ajesaia", sb:1, st:"Stade By-Pass · 29 juin"},
+  {sport:"basket",comp:"N1A · Phase 1 Nord (finale)", a:"COSPN", sa:91, b:"ASCUM Mahajanga", sb:55, st:"Mahajanga · mai 2026"},
+  {sport:"basket",comp:"N1A · Phase 1 Nord (3e place)", a:"BCB Boeny", sa:80, b:"RBC Boeny", sb:69, st:"Mahajanga · mai 2026"},
+  {sport:"volley",comp:"CAVB Zone 7 · Finale", a:"Tampon Gecko (Réunion)", sa:3, b:"GNVB", sb:1, st:"Seychelles · mars 2026"},
 ];
 
 /* Replays — mettez l'ID YouTube réel (la partie après watch?v=) */
 const VIDEOS = [
-  {sport:"foot",  yt:"", tag:"RÉSUMÉ · 8 MIN", title:"Elgeco Plus 2-1 Fosa Juniors — le résumé", desc:"Football D1 · Journée 11"},
-  {sport:"basket",yt:"", tag:"MATCH COMPLET", title:"GNBC vs COSPN — replay intégral", desc:"Basketball N1A · Phase 2"},
-  {sport:"foot",  yt:"", tag:"TOP ACTIONS", title:"Le top 5 du week-end", desc:"Toutes compétitions"},
+  {sport:"foot",  yt:"", tag:"RÉSUMÉ", title:"CFFA 2-1 Ajesaia — la finale de la PFL", desc:"CFFA champion de Madagascar 2026 · buts de Gregas et Tahina"},
+  {sport:"foot",  yt:"", tag:"DIRECT À VENIR", title:"Demi-finales de la Coupe de Madagascar", desc:"Mercredi 22 juillet · Wagner-Sainte-Anne et Cosfa-FC Rouge"},
+  {sport:"basket",yt:"", tag:"TOP ACTIONS", title:"COSPN, patron de la zone Nord", desc:"Basketball N1A · Phase 1 · Mahajanga"},
 ];
 
-/* Matchs à venir */
+/* Matchs à venir — compétitions SENIORS uniquement (réels, horaires à vérifier) */
 const CALENDAR = [
-  {date:"Sam. 18 juil. · 14h00", sport:"basket", m:"GNBC vs MB2ALL", comp:"N1A · Phase 2", lieu:"Palais des Sports Mahamasina", live:true},
-  {date:"Sam. 18 juil. · 16h00", sport:"boxe",   m:"Gala national — 6 combats", comp:"Championnat national", lieu:"Antananarivo", live:false},
-  {date:"Dim. 19 juil. · 14h00", sport:"foot",   m:"AS Adema vs CFFA", comp:"D1 · Journée 12", lieu:"Stade d'Alarobia", live:true},
-  {date:"Dim. 19 juil. · 15h00", sport:"rugby",  m:"Cosfa vs FTM", comp:"Championnat", lieu:"Stade Makis Andohatapenaka", live:true},
-  {date:"Dim. 19 juil. · 10h00", sport:"volley", m:"GNVB vs Squale", comp:"Championnat", lieu:"Gymnase Ankorondrano", live:false},
+  {date:"Mer. 22 juil.", sport:"foot",   m:"FC Wagner vs AS Sainte-Anne", comp:"Coupe de Madagascar · Demi-finale", lieu:"À confirmer", live:true},
+  {date:"Mer. 22 juil.", sport:"foot",   m:"Cosfa vs FC Rouge", comp:"Coupe de Madagascar · Demi-finale", lieu:"À confirmer", live:true},
+  {date:"Juil. (à confirmer)", sport:"rugby", m:"Uscar vs Cosfa", comp:"XXL Energy Top 12 · Demi-finale", lieu:"Antananarivo", live:true},
+  {date:"Juil. (à confirmer)", sport:"rugby", m:"FT Manjakaray vs TFMA", comp:"XXL Energy Top 12 · Demi-finale", lieu:"Antananarivo", live:true},
+  {date:"Sam. 25 juil.", sport:"foot",   m:"FINALE — Yas Coupe de Madagascar", comp:"Coupe de Madagascar", lieu:"Antananarivo", live:true},
+  {date:"Week-ends", sport:"foot", m:"Ligue 1 Analamanga — ~25 clubs, jusqu'à 6 matchs/week-end", comp:"Championnat régional senior", lieu:"Stade CFFA Andoharanofotsy", live:false},
+  {date:"17 – 29 août",  sport:"tennis", m:"Championnat national seniors (simples & doubles)", comp:"Ligue Analamanga", lieu:"Antananarivo", live:false},
+  {date:"Fin sept. – début oct.", sport:"basket", m:"Phase finale N1A (hommes & dames)", comp:"Championnat national", lieu:"Antananarivo", live:false},
+  {date:"3 – 4 oct.", sport:"rugby",  m:"Africa Men's Sevens Cup — les Makis visent le podium", comp:"Rugby à VII · CAR", lieu:"Cascavelle, Maurice", live:false},
 ];
 
-/* Classement foot D1 (exemple) */
+/* Palmarès & faits marquants de la saison — seniors (réels) */
 const RANKING = [
-  ["Elgeco Plus",11,8,2,1,"+14",26],["AS Adema",11,7,3,1,"+11",24],
-  ["Fosa Juniors",11,7,1,3,"+8",22],["CFFA",11,6,2,3,"+6",20],
-  ["Disciples FC",11,4,4,3,"+2",16],["AS Fanalamanga",11,3,3,5,"-4",12],
-  ["Ajesaia",11,2,3,6,"-9",9],["Mama FC",11,1,2,8,"-18",5],
+  ["Football — PFL 2025-26", "CFFA, champion (2-1 en finale vs Ajesaia)", "2e titre · qualifié pour la Ligue des champions CAF"],
+  ["Football — Yas Coupe de Madagascar", "Finale le 25 juillet", "Demi-finales : Wagner–Sainte-Anne, Cosfa–FC Rouge"],
+  ["Football — Ligue 1 Analamanga", "~25 clubs en compétition", "St Gabriel et Elgeco Plus en forme · matchs au stade CFFA"],
+  ["Rugby à XV — XXL Energy Top 12", "En cours : Cosfa invaincu en tête (39 pts)", "Demi-finales : Uscar–Cosfa et FTM–TFMA"],
+  ["Basketball — N1A Phase 1 Nord", "COSPN (hommes) · GNBC invaincue (dames)", "Phase finale fin sept. à Antananarivo"],
+  ["Volleyball — CAVB Zone 7", "GNVB vice-champion (finale vs Tampon Gecko)", "Victoria, Seychelles · mars 2026"],
+  ["Rugby à VII — Makis", "Vice-champions d'Afrique 2025", "Qualifiés World Rugby Challenger Series 2026"],
+  ["Tennis", "Championnat national seniors du 17 au 29 août", "Madagascar accueillera le tennis des JIOI 2027"],
 ];
 
 /* ================================================================
@@ -377,7 +386,7 @@ const $ = s => document.querySelector(s);
 
 /* ticker */
 $("#ticker").innerHTML =
-  '<span><span class="dotlive"></span><b>DIMANCHE 14H</b> — AS Adema vs CFFA en direct</span>' +
+  '<span><span class="dotlive"></span><b>MER. 22 JUIL.</b> — Demi-finales de la Coupe de Madagascar</span>' +
   RESULTS.slice(0,4).map(r=>`<span><b>${SPORTS[r.sport].label}</b> : ${r.a} ${r.sa}-${r.sb} ${r.b}</span>`).join("");
 
 /* hero — prochain match + compte à rebours */
@@ -438,9 +447,9 @@ $("#videos").innerHTML = VIDEOS.map(v=>`
     <div class="body"><span class="tag">${v.tag}</span><h3>${v.title}</h3><p>${v.desc}</p></div>
   </div>`).join("");
 
-/* classement */
-$("#rankbody").innerHTML = RANKING.map((r,i)=>`
-  <tr><td class="pos">${i+1}</td>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("");
+/* palmarès */
+$("#rankbody").innerHTML = RANKING.map(r=>`
+  <tr>${r.map((c,i)=>`<td style="text-align:left;${i==0?'font-weight:700':''}">${c}</td>`).join("")}</tr>`).join("");
 </script>
 </body>
 </html>
