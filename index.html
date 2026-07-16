@@ -240,12 +240,12 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
     <button class="burger" onclick="document.querySelector('.menu').classList.toggle('open')">☰</button>
     <nav class="menu">
       <a class="item on" href="#top">Accueil</a>
-      <a class="item" href="#championnat">Championnat</a>
+      <a class="item" href="#championnat">Foot PFL</a>
       <a class="item" href="#n1a">Basket N1A</a>
-      <a class="item" href="#replays">Direct &amp; Replays</a>
+      <a class="item" href="#top12">Rugby Top 12</a>
+      <a class="item" href="#replays">Replays</a>
       <a class="item" href="#calendrier">Calendrier</a>
-      <a class="item" href="#resultats">Résultats</a>
-      <a class="item" href="#classement">Classement</a>
+      <a class="item" href="#classement">Palmarès</a>
       <a class="item" href="#sponsors">Sponsors</a>
     </nav>
   </div>
@@ -308,6 +308,18 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
   </div>
 </section>
 
+<!-- ============ RUGBY TOP 12 ============ -->
+<section id="top12" class="pfl" style="border-top:1px solid #1B3542">
+  <div class="wrap">
+    <div class="sectitle"><span class="bar" style="background:var(--red)"></span><h2>Rugby XV — XXL Energy Top 12</h2>
+      <span class="champbadge">Cosfa invaincu · 11 v.</span></div>
+    <div id="top12view"></div>
+    <p class="note" style="color:#8FA6B2">Phase régulière terminée le 12 juillet au stade Makis d'Andohatapenaka.
+    Classement partiel — Malagasy Rugby ne publie pas les feuilles de match complètes ; le journée-par-journée
+    intégral arrivera avec la convention KIANJA × Malagasy Rugby. Sources : L'Express de Madagascar (juillet 2026).</p>
+  </div>
+</section>
+
 <!-- ============ RÉSULTATS ============ -->
 <section id="resultats">
   <div class="wrap">
@@ -348,7 +360,10 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
       <thead><tr><th style="text-align:left">Compétition</th><th style="text-align:left">Résultat</th><th style="text-align:left">Détail</th></tr></thead>
       <tbody id="rankbody"></tbody>
     </table>
-    <p class="note">Sources : L'Express de Madagascar, 2424.mg, Midi Madagasikara, allAfrica (juillet 2026). Les classements complets par journée seront publiés ici dès la reprise des championnats.</p>
+    <p class="note">Sources : L'Express de Madagascar, 2424.mg, Midi Madagasikara, FMBB, Sofascore (juillet 2026).
+    Les classements complets sont dans les sections <a href="#championnat" style="color:var(--green);font-weight:700">Foot PFL</a>,
+    <a href="#n1a" style="color:var(--green);font-weight:700">Basket N1A</a> et
+    <a href="#top12" style="color:var(--green);font-weight:700">Rugby Top 12</a>.</p>
   </div>
 </section>
 
@@ -451,8 +466,8 @@ const RESULTS = [
   {sport:"foot",  comp:"Coupe de Madagascar · Quart", a:"Cosfa", sa:1, b:"CFFA", sb:0, st:"juil. 2026"},
   {sport:"foot",  comp:"Coupe de Madagascar · Quart", a:"AS Sainte-Anne (5 t.a.b. 4)", sa:0, b:"Elgeco Plus", sb:0, st:"juil. 2026"},
   {sport:"foot",  comp:"Finale PFL", a:"CFFA — champion 2026", sa:2, b:"Ajesaia", sb:1, st:"fin juin 2026"},
+  {sport:"rugby", comp:"XXL Energy Top 12 · J11", a:"Cosfa", sa:46, b:"Uscar", sb:42, st:"Stade Makis · 12 juil. · Cosfa invaincu"},
   {sport:"rugby", comp:"XXL Energy Top 12 · J9", a:"TFA Anatihazo", sa:23, b:"FTM Manjakaray", sb:22, st:"Stade Makis · le champion battu"},
-  {sport:"rugby", comp:"XXL Energy Top 12 · J9", a:"US Ankadifotsy", sa:24, b:"UAS Cheminots", sb:9, st:"Stade Makis Andohatapenaka"},
   {sport:"basket",comp:"N1A · Phase 1 Nord (finale)", a:"COSPN", sa:91, b:"ASCUM Mahajanga", sb:55, st:"Mahajanga · mai 2026"},
   {sport:"basket",comp:"N1A · Phase 1 Nord (3e place)", a:"BCB Boeny", sa:80, b:"RBC Boeny", sb:69, st:"Mahajanga · mai 2026"},
   {sport:"volley",comp:"CAVB Zone 7 · Finale", a:"Tampon Gecko (Réunion)", sa:3, b:"GNVB", sb:1, st:"Seychelles · mars 2026"},
@@ -469,8 +484,8 @@ const VIDEOS = [
 const CALENDAR = [
   {date:"Mer. 22 juil.", sport:"foot",   m:"FC Wagner vs AS Sainte-Anne", comp:"Coupe de Madagascar · Demi-finale", lieu:"À confirmer", live:true},
   {date:"Mer. 22 juil.", sport:"foot",   m:"Cosfa vs FC Rouge", comp:"Coupe de Madagascar · Demi-finale", lieu:"À confirmer", live:true},
-  {date:"Juil. (à confirmer)", sport:"rugby", m:"Uscar vs Cosfa", comp:"XXL Energy Top 12 · Demi-finale", lieu:"Antananarivo", live:true},
-  {date:"Juil. (à confirmer)", sport:"rugby", m:"FT Manjakaray vs TFMA", comp:"XXL Energy Top 12 · Demi-finale", lieu:"Antananarivo", live:true},
+  {date:"À confirmer", sport:"rugby", m:"Barrage : Cosfa (1er) vs 4e", comp:"XXL Energy Top 12 · Demi-finale", lieu:"Stade Makis, Antananarivo", live:true},
+  {date:"À confirmer", sport:"rugby", m:"Barrage : CEA (2e) vs 3e", comp:"XXL Energy Top 12 · Demi-finale", lieu:"Stade Makis, Antananarivo", live:true},
   {date:"Sam. 25 juil.", sport:"foot",   m:"FINALE — Yas Coupe de Madagascar", comp:"Coupe de Madagascar", lieu:"Antananarivo", live:true},
   {date:"Week-ends", sport:"foot", m:"Ligue 1 Analamanga — ~25 clubs, jusqu'à 6 matchs/week-end", comp:"Championnat régional senior", lieu:"Stade CFFA Andoharanofotsy", live:false},
   {date:"17 – 29 août",  sport:"tennis", m:"Championnat national seniors (simples & doubles)", comp:"Ligue Analamanga", lieu:"Antananarivo", live:false},
@@ -483,7 +498,7 @@ const RANKING = [
   ["Football — PFL 2025-26", "CFFA, champion (2-1 en finale vs Ajesaia)", "2e titre · qualifié pour la Ligue des champions CAF"],
   ["Football — Yas Coupe de Madagascar", "Finale le 25 juillet", "Demi-finales : Wagner–Sainte-Anne, Cosfa–FC Rouge"],
   ["Football — Ligue 1 Analamanga", "~25 clubs en compétition", "St Gabriel et Elgeco Plus en forme · matchs au stade CFFA"],
-  ["Rugby à XV — XXL Energy Top 12", "En cours : Cosfa en tête (44 pts), CEA 2e (42), FTM 3e (32)", "Demi-finales : Uscar–Cosfa et FTM–TFMA"],
+  ["Rugby à XV — XXL Energy Top 12", "Phase régulière terminée : Cosfa invaincu (11 victoires)", "Barrages : Cosfa (1er) vs 4e · CEA (2e) vs 3e · dates à confirmer"],
   ["Basketball — N1A Phase 1 Nord", "COSPN (hommes) · GNBC invaincue (dames)", "Phase finale fin sept. à Antananarivo"],
   ["Volleyball — CAVB Zone 7", "GNVB vice-champion (finale vs Tampon Gecko)", "Victoria, Seychelles · mars 2026"],
   ["Rugby à VII — Makis", "Vice-champions d'Afrique 2025", "Qualifiés World Rugby Challenger Series 2026"],
@@ -565,6 +580,8 @@ const $ = s => document.querySelector(s);
 $("#ticker").innerHTML =
   '<span><span class="dotlive"></span><b>MER. 22 JUIL.</b> — Demi-finales de la Coupe de Madagascar</span>' +
   '<span><b>PFL</b> : CFFA champion de Madagascar 2025-26 🏆</span>' +
+  '<span><b>Rugby</b> : Cosfa boucle la phase régulière du Top 12 invaincu</span>' +
+  '<span><b>N1A</b> : phase finale fin septembre à Antananarivo</span>' +
   RESULTS.slice(0,4).map(r=>`<span><b>${SPORTS[r.sport].label}</b> : ${r.a} ${r.sa}-${r.sb} ${r.b}</span>`).join("");
 
 /* hero — prochain match + compte à rebours */
@@ -825,6 +842,63 @@ function n1aRender(){
   </div>`;
 }
 n1aRender();
+
+/* ================================================================
+   RUGBY XV — XXL ENERGY TOP 12 (source : L'Express de Madagascar)
+   ================================================================ */
+const TOP12 = {
+  resultats:[
+    {j:"J11 · dim. 12 juil.",a:"Cosfa",sa:46,b:"Uscar",sb:42,note:"Les militaires bouclent la phase régulière invaincus"},
+    {j:"J9",a:"TFA Anatihazo",sa:23,b:"FTM Manjakaray",sb:22,note:"Le champion en titre battu"},
+    {j:"J9",a:"US Ankadifotsy",sa:24,b:"UAS Cheminots",sb:9,note:""}
+  ],
+  classement:[
+    ["1","Cosfa","Invaincu — 11 victoires · +221 (J10)","zpo"],
+    ["2","CEA Andranomanalina","47 pts · +219 (J10)","zpo"],
+    ["3","Uscar","Barragiste","zpo"],
+    ["4","FTM Manjakaray","Champion en titre","zpo"],
+    ["5","US Ankadifotsy","34 pts · +54 (J10)",""],
+    ["7","TFMA Ankasina","22 pts (J10)",""]
+  ]
+};
+
+(function(){
+  const el = document.getElementById("top12view");
+  el.innerHTML = `<div class="bracket" style="align-items:start">
+    <div class="bcol"><h3>Derniers résultats · stade Makis</h3>
+      ${TOP12.resultats.map(r=>`<div class="tie">
+        <div style="font-size:10px;color:#7FB99F;font-weight:800;letter-spacing:.08em;text-transform:uppercase">${r.j}</div>
+        <div class="tm ${r.sa>r.sb?'win':''}"><span>${r.a}</span><b>${r.sa}</b></div>
+        <div class="tm ${r.sb>r.sa?'win':''}"><span>${r.b}</span><b>${r.sb}</b></div>
+        ${r.note?`<div class="legs">${r.note}</div>`:""}
+      </div>`).join("")}
+    </div>
+    <div class="bcol"><h3>Classement — fin de phase régulière</h3>
+      <div class="tie">
+        ${TOP12.classement.map(c=>`<div class="tm ${c[3]?'win':''}" style="${c[3]?'':'color:#8FA6B2'}">
+          <span><b style="margin-right:8px;color:${c[3]?'#2EAE6E':'#5B7A8A'}">${c[0]}</b>${c[1]}</span>
+          <span style="font-size:10.5px;font-weight:400;color:#8FA6B2;text-align:right">${c[2]}</span></div>`).join("")}
+        <div class="legs">En vert : qualifiés pour les barrages des demi-finales</div>
+      </div>
+    </div>
+    <div class="bcol"><h3>Barrages des demi-finales</h3>
+      <div class="tie">
+        <div class="tm win"><span>Cosfa (1er)</span><span>vs</span></div>
+        <div class="tm"><span>4e du classement</span><span></span></div>
+      </div>
+      <div class="tie">
+        <div class="tm win"><span>CEA (2e)</span><span>vs</span></div>
+        <div class="tm"><span>3e du classement</span><span></span></div>
+      </div>
+      <div class="finalcard" style="margin-top:10px;background:linear-gradient(135deg,var(--red),#A32E1F)">
+        <div class="flab">PUIS LA FINALE</div>
+        <div class="fteams">Le Cosfa peut-il finir la saison invaincu ?</div>
+        <div class="fdate" style="margin-top:6px">Dates des barrages à confirmer par Malagasy Rugby</div>
+        <div class="fchamp" style="background:#fff">🎥 KIANJA filmera les phases finales</div>
+      </div>
+    </div>
+  </div>`;
+})();
 </script>
 </body>
 </html>
