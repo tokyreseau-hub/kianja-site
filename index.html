@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KIANJA — Tout le sport malgache, en direct et en replay</title>
-<meta name="description" content="KIANJA filme et diffuse les championnats malgaches : football D1, basketball N1A, rugby, volley, boxe. Lives, résumés, scores et classements.">
+<meta name="description" content="KIANJA filme et diffuse les championnats malgaches : football PFL, basketball N1A, rugby Top 12, volley Analamanga, tennis. Lives, résumés, scores et classements journée par journée.">
 <meta property="og:title" content="KIANJA — Tout le sport malgache">
 <meta property="og:description" content="Lives, résumés, scores et classements des championnats de Madagascar : football PFL, basket N1A, rugby Top 12, volley, tennis.">
 <meta property="og:type" content="website">
@@ -262,8 +262,8 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
     <div>
       <div class="kicker">Le premier média 100 % sport malgache</div>
       <h1>Vos championnats, filmés comme à la télé. Gratuits, sur votre téléphone.</h1>
-      <p>Football D1, basketball N1A, rugby, volley, boxe : KIANJA capte les matchs officiels
-      chaque week-end et les diffuse en direct et en replay — scores, résumés, classements et statistiques.</p>
+      <p>Football PFL, basketball N1A, rugby Top 12, volley Analamanga, tennis : KIANJA capte les matchs officiels
+      chaque week-end et les diffuse en direct et en replay — scores, résumés et classements journée par journée.</p>
       <a class="cta" href="#replays">▶ Voir les matchs</a>
       <a class="cta ghost" href="#calendrier">Calendrier du week-end</a>
     </div>
@@ -503,14 +503,20 @@ const RESULTS = [
   {sport:"rugby", comp:"XXL Energy Top 12 · J9", a:"TFA Anatihazo", sa:23, b:"FTM Manjakaray", sb:22, st:"Stade Makis · le champion battu"},
   {sport:"basket",comp:"N1A · Phase 1 Nord (finale)", a:"COSPN", sa:91, b:"ASCUM Mahajanga", sb:55, st:"Mahajanga · mai 2026"},
   {sport:"basket",comp:"N1A · Phase 1 Nord (3e place)", a:"BCB Boeny", sa:80, b:"RBC Boeny", sb:69, st:"Mahajanga · mai 2026"},
+  {sport:"basket",comp:"N1A · Phase 1 Nord (finale dames)", a:"GNBC", sa:73, b:"BC Somava", sb:62, st:"Mahajanga · les Gendarmes invaincues"},
+  {sport:"volley",comp:"1re division Analamanga · J9", a:"GNVB 1", sa:3, b:"COSFA 1", sb:0, st:"Antananarivo"},
+  {sport:"volley",comp:"1re division Analamanga · J9", a:"GNVB 2", sa:3, b:"COSFA 2", sb:0, st:"Antananarivo"},
   {sport:"volley",comp:"CAVB Zone 7 · Finale", a:"Tampon Gecko (Réunion)", sa:3, b:"GNVB", sb:1, st:"Seychelles · mars 2026"},
 ];
 
 /* Replays — mettez l'ID YouTube réel (la partie après watch?v=) */
 const VIDEOS = [
-  {sport:"foot",  yt:"", tag:"RÉSUMÉ", title:"CFFA 2-1 Ajesaia — la finale de la PFL", desc:"CFFA champion de Madagascar 2026 · buts de Gregas et Tahina"},
   {sport:"foot",  yt:"", tag:"DIRECT À VENIR", title:"Demi-finales de la Coupe de Madagascar", desc:"Mercredi 22 juillet · Wagner-Sainte-Anne et Cosfa-FC Rouge"},
-  {sport:"basket",yt:"", tag:"TOP ACTIONS", title:"COSPN, patron de la zone Nord", desc:"Basketball N1A · Phase 1 · Mahajanga"},
+  {sport:"foot",  yt:"", tag:"RÉSUMÉ", title:"CFFA 2-1 Ajesaia — la finale de la PFL", desc:"CFFA champion de Madagascar 2026 · buts de Gregas et Tahina"},
+  {sport:"rugby", yt:"", tag:"RÉSUMÉ", title:"Cosfa 46-42 Uscar — le thriller du Makis", desc:"Top 12 · J11 · deux cartons rouges, huit essais, invincibilité préservée"},
+  {sport:"basket",yt:"", tag:"TOP ACTIONS", title:"COSPN 91-55 ASCUM, patron de la zone Nord", desc:"Basketball N1A · Phase 1 · Mahajanga"},
+  {sport:"volley",yt:"", tag:"MAGAZINE", title:"ASI – GNVB 2 : le duel au sommet", desc:"1re division Analamanga · à égalité parfaite après 5 journées jouées"},
+  {sport:"tennis",yt:"", tag:"REPORTAGE", title:"Les Akomba à Gaborone", desc:"Billie Jean King Cup · 2 victoires, 1 défaite · la montée attendra 2027"},
 ];
 
 /* Matchs à venir — compétitions SENIORS uniquement (réels, horaires à vérifier) */
@@ -521,6 +527,7 @@ const CALENDAR = [
   {date:"À confirmer", sport:"rugby", m:"Barrage : CEA (2e) vs 3e", comp:"XXL Energy Top 12 · Demi-finale", lieu:"Stade Makis, Antananarivo", live:true},
   {date:"Sam. 25 juil.", sport:"foot",   m:"FINALE — Yas Coupe de Madagascar", comp:"Coupe de Madagascar", lieu:"Antananarivo", live:true},
   {date:"Week-ends", sport:"foot", m:"Ligue 1 Analamanga — ~25 clubs, jusqu'à 6 matchs/week-end", comp:"Championnat régional senior", lieu:"Stade CFFA Andoharanofotsy", live:false},
+  {date:"À reprogrammer", sport:"volley", m:"1re division Analamanga — reprise des journées 4 à 8 (H) et 5 à 9 (F)", comp:"LRVB Analamanga", lieu:"Antananarivo", live:false},
   {date:"Août 2026", sport:"volley", m:"Zone 7 U18 — 1re édition à Madagascar (7 pays)", comp:"CAVB Zone 7", lieu:"Antananarivo", live:false},
   {date:"Sept. – oct.", sport:"volley", m:"Championnat de Madagascar seniors (sommet national)", comp:"FMVB", lieu:"À confirmer", live:false},
   {date:"17 – 29 août",  sport:"tennis", m:"Championnat national seniors (simples & doubles)", comp:"Ligue Analamanga", lieu:"Antananarivo", live:false},
@@ -535,6 +542,7 @@ const RANKING = [
   ["Football — Ligue 1 Analamanga", "~25 clubs en compétition", "St Gabriel et Elgeco Plus en forme · matchs au stade CFFA"],
   ["Rugby à XV — XXL Energy Top 12", "Phase régulière terminée : Cosfa invaincu (11 victoires)", "Barrages : Cosfa (1er) vs 4e · CEA (2e) vs 3e · dates à confirmer"],
   ["Basketball — N1A Phase 1 Nord", "COSPN (hommes) · GNBC invaincue (dames)", "Phase finale fin sept. à Antananarivo"],
+  ["Volleyball — 1re division Analamanga", "ASI et GNVB 2 à égalité en tête (H) · SQUAD invaincue (F)", "Saison en cours · classements complets dans la section Volley"],
   ["Volleyball — CAVB Zone 7", "GNVB vice-champion (finale vs Tampon Gecko)", "Zone 7 U18 en août à Tana · Zone 7 seniors à Tana début 2027"],
   ["Rugby à VII — Makis", "Vice-champions d'Afrique 2025", "Qualifiés World Rugby Challenger Series 2026"],
   ["Tennis — Billie Jean King Cup", "Akomba : 2 victoires, 1 défaite à Gaborone (Gr. III Afrique)", "Montée en Groupe II manquée · national seniors du 17 au 29 août · JIOI 2027 à Madagascar"],
