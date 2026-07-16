@@ -150,7 +150,10 @@ table.pfltab{width:100%;border-collapse:collapse;font-size:13px;background:#0F25
 @media(max-width:720px){.bracket{grid-template-columns:1fr}}
 .bcol h3{font-size:12px;color:#7FB99F;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;text-align:center}
 .tie{background:#0F2531;border:1px solid #23404F;border-radius:10px;padding:10px 12px;margin-bottom:10px;font-size:13px}
-.tie .tm{display:flex;justify-content:space-between;padding:3px 0}
+.tie .tm{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:5px 0}
+.tie .tm + .tm{border-top:1px solid #16303C}
+.tie .tm > span:first-child{min-width:0}
+.tie .tm > b,.tie .tm > span:last-child{white-space:nowrap;flex-shrink:0;text-align:right}
 .tie .tm.win{color:#2EAE6E;font-weight:800}
 .tie .legs{font-size:10.5px;color:#8FA6B2;margin-top:5px;border-top:1px solid #1B3542;padding-top:5px}
 .finalcard{background:linear-gradient(135deg,var(--green),#0A5738);border-radius:12px;padding:20px;text-align:center}
