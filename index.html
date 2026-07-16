@@ -243,6 +243,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
       <a class="item" href="#championnat">Foot PFL</a>
       <a class="item" href="#n1a">Basket N1A</a>
       <a class="item" href="#top12">Rugby Top 12</a>
+      <a class="item" href="#volley">Volley</a>
       <a class="item" href="#replays">Replays</a>
       <a class="item" href="#calendrier">Calendrier</a>
       <a class="item" href="#classement">Palmarès</a>
@@ -317,6 +318,23 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
     <p class="note" style="color:#8FA6B2">Phase régulière terminée le 12 juillet au stade Makis d'Andohatapenaka.
     Classement partiel — Malagasy Rugby ne publie pas les feuilles de match complètes ; le journée-par-journée
     intégral arrivera avec la convention KIANJA × Malagasy Rugby. Sources : L'Express de Madagascar (juillet 2026).</p>
+  </div>
+</section>
+
+<!-- ============ VOLLEY ============ -->
+<section id="volley" class="pfl" style="border-top:1px solid #1B3542;background:linear-gradient(160deg,#0C1F2A,var(--navy))">
+  <div class="wrap">
+    <div class="sectitle"><span class="bar" style="background:var(--green2)"></span><h2>Volley — Championnat d'Analamanga · 1ère division</h2>
+      <span class="champbadge" style="background:var(--green2);color:#fff">Saison 2026 en cours</span></div>
+    <div class="tabs" id="vltabs">
+      <button class="tab on" data-v="M">Hommes</button>
+      <button class="tab" data-v="F">Dames</button>
+    </div>
+    <div id="volleyview"></div>
+    <p class="note" style="color:#8FA6B2">Données officielles de la Ligue Régionale de Volley-Ball Analamanga
+    (9 équipes par tableau, 9 journées ; les matchs « reporté » attendent une nouvelle date).
+    Classement : victoires, puis points (3-0/3-1 = 3 pts · 3-2 = 2 pts · 2-3 = 1 pt), puis ratio de sets.
+    Contexte national : GNVB vice-champion Zone 7 clubs (mars, Seychelles) · Zone 7 U18 à Tana en août · sommet national FMVB attendu sept.-oct.</p>
   </div>
 </section>
 
@@ -488,6 +506,8 @@ const CALENDAR = [
   {date:"À confirmer", sport:"rugby", m:"Barrage : CEA (2e) vs 3e", comp:"XXL Energy Top 12 · Demi-finale", lieu:"Stade Makis, Antananarivo", live:true},
   {date:"Sam. 25 juil.", sport:"foot",   m:"FINALE — Yas Coupe de Madagascar", comp:"Coupe de Madagascar", lieu:"Antananarivo", live:true},
   {date:"Week-ends", sport:"foot", m:"Ligue 1 Analamanga — ~25 clubs, jusqu'à 6 matchs/week-end", comp:"Championnat régional senior", lieu:"Stade CFFA Andoharanofotsy", live:false},
+  {date:"Août 2026", sport:"volley", m:"Zone 7 U18 — 1re édition à Madagascar (7 pays)", comp:"CAVB Zone 7", lieu:"Antananarivo", live:false},
+  {date:"Sept. – oct.", sport:"volley", m:"Championnat de Madagascar seniors (sommet national)", comp:"FMVB", lieu:"À confirmer", live:false},
   {date:"17 – 29 août",  sport:"tennis", m:"Championnat national seniors (simples & doubles)", comp:"Ligue Analamanga", lieu:"Antananarivo", live:false},
   {date:"Fin sept. – début oct.", sport:"basket", m:"Phase finale N1A (hommes & dames)", comp:"Championnat national", lieu:"Antananarivo", live:false},
   {date:"3 – 4 oct.", sport:"rugby",  m:"Africa Men's Sevens Cup — les Makis visent le podium", comp:"Rugby à VII · CAR", lieu:"Cascavelle, Maurice", live:false},
@@ -500,7 +520,7 @@ const RANKING = [
   ["Football — Ligue 1 Analamanga", "~25 clubs en compétition", "St Gabriel et Elgeco Plus en forme · matchs au stade CFFA"],
   ["Rugby à XV — XXL Energy Top 12", "Phase régulière terminée : Cosfa invaincu (11 victoires)", "Barrages : Cosfa (1er) vs 4e · CEA (2e) vs 3e · dates à confirmer"],
   ["Basketball — N1A Phase 1 Nord", "COSPN (hommes) · GNBC invaincue (dames)", "Phase finale fin sept. à Antananarivo"],
-  ["Volleyball — CAVB Zone 7", "GNVB vice-champion (finale vs Tampon Gecko)", "Victoria, Seychelles · mars 2026"],
+  ["Volleyball — CAVB Zone 7", "GNVB vice-champion (finale vs Tampon Gecko)", "Zone 7 U18 en août à Tana · Zone 7 seniors à Tana début 2027"],
   ["Rugby à VII — Makis", "Vice-champions d'Afrique 2025", "Qualifiés World Rugby Challenger Series 2026"],
   ["Tennis", "Championnat national seniors du 17 au 29 août", "Madagascar accueillera le tennis des JIOI 2027"],
 ];
@@ -582,6 +602,7 @@ $("#ticker").innerHTML =
   '<span><b>PFL</b> : CFFA champion de Madagascar 2025-26 🏆</span>' +
   '<span><b>Rugby</b> : Cosfa boucle la phase régulière du Top 12 invaincu</span>' +
   '<span><b>N1A</b> : phase finale fin septembre à Antananarivo</span>' +
+  '<span><b>Volley</b> : la Zone 7 U18 débarque à Tana en août</span>' +
   RESULTS.slice(0,4).map(r=>`<span><b>${SPORTS[r.sport].label}</b> : ${r.a} ${r.sa}-${r.sb} ${r.b}</span>`).join("");
 
 /* hero — prochain match + compte à rebours */
@@ -842,6 +863,122 @@ function n1aRender(){
   </div>`;
 }
 n1aRender();
+
+/* ================================================================
+   VOLLEY — CHAMPIONNAT D'ANALAMANGA 1RE DIVISION 2026
+   (source : Ligue Régionale de Volley-Ball Analamanga)
+   [journée, date, équipe1, sets1, pts1, équipe2, sets2, pts2] — sets null = reporté
+   ================================================================ */
+const VLY = {
+M:[
+[1,"12 avr.","COSFA 1",3,108,"COSFA 2",2,102],[1,"12 avr.","GNVB 1",0,70,"GNVB 2",3,80],
+[1,"12 avr.","POLE",1,85,"ASI",3,91],[1,"12 avr.","BMVB",2,105,"ESVBA",3,109],
+[2,"19 avr.","COSFA 1",3,102,"ESVBA",1,92],[2,"19 avr.","COSFA 2",3,75,"POLE",0,64],
+[2,null,"GNVB 1",null,0,"ASSM",null,0],[2,"19 avr.","ASI",3,75,"BMVB",0,0],
+[3,null,"COSFA 1",null,0,"BMVB",null,0],[3,"26 avr.","ESVBA",0,59,"GNVB 1",3,75],
+[3,"26 avr.","ASSM",2,97,"COSFA 2",3,103],[3,"26 avr.","POLE",1,93,"GNVB 2",3,101],
+[4,null,"GNVB 2",null,0,"ASSM",null,0],[4,null,"COSFA 2",null,0,"ESVBA",null,0],
+[4,null,"COSFA 1",null,0,"ASI",null,0],[4,null,"GNVB 1",null,0,"BMVB",null,0],
+[5,null,"GNVB 1",3,105,"POLE",2,101],[5,null,"ASSM",0,44,"ASI",3,75],
+[5,null,"BMVB",null,0,"COSFA 2",null,0],[5,null,"GNVB 2",3,75,"ESVBA",0,53],
+[6,null,"COSFA 1",null,0,"GNVB 2",null,0],[6,null,"BMVB",null,0,"ASSM",null,0],
+[6,null,"GNVB 1",null,0,"ASI",null,0],[6,null,"ESVBA",null,0,"POLE",null,0],
+[7,null,"COSFA 1",null,0,"POLE",null,0],[7,null,"ASSM",null,0,"ESVBA",null,0],
+[7,null,"COSFA 2",null,0,"ASI",null,0],[7,null,"BMVB",null,0,"GNVB 2",null,0],
+[8,null,"GNVB 1",null,0,"COSFA 2",null,0],[8,null,"GNVB 2",null,0,"ASI",null,0],
+[8,null,"COSFA 1",null,0,"ASSM",null,0],[8,null,"BMVB",null,0,"POLE",null,0],
+[9,null,"ASSM",3,93,"POLE",1,93],[9,null,"ESVBA",0,59,"ASI",3,76],
+[9,null,"COSFA 2",0,61,"GNVB 2",3,75],[9,null,"GNVB 1",3,75,"COSFA 1",0,63]
+],
+F:[
+[1,"12 avr.","GNVB 1",3,75,"GNVB 2",0,47],[1,null,"ASI 2",null,0,"ASI 1",null,0],
+[1,"12 avr.","AMVB",0,55,"SQUAD",3,75],[1,"12 avr.","AFA",0,55,"2AVB",3,77],
+[2,null,"GNVB 1",0,63,"SQUAD",3,76],[2,null,"GNVB 2",0,51,"ASI 1",3,75],
+[2,null,"AMVB",3,75,"ASI 2",0,43],[2,null,"2AVB",2,106,"BI'AS",3,106],
+[3,"26 avr.","GNVB 2",0,65,"2AVB",3,75],[3,"26 avr.","ASI 2",3,75,"AFA",0,44],
+[3,"26 avr.","BI'AS",1,75,"SQUAD",3,95],[3,null,"ASI 1",null,0,"AMVB",null,0],
+[4,null,"AMVB",3,75,"AFA",0,40],[4,null,"GNVB 1",null,0,"2AVB",null,0],
+[4,null,"ASI 2",null,0,"GNVB 2",null,0],[4,null,"BI'AS",0,55,"ASI 1",3,75],
+[5,null,"GNVB 1",null,0,"AMVB",null,0],[5,null,"ASI 2",null,0,"BI'AS",null,0],
+[5,null,"ASI 1",null,0,"2AVB",null,0],[5,null,"AFA",null,0,"SQUAD",null,0],
+[6,null,"GNVB 1",null,0,"BI'AS",null,0],[6,null,"GNVB 2",null,0,"SQUAD",null,0],
+[6,null,"ASI 2",null,0,"2AVB",null,0],[6,null,"ASI 1",null,0,"AFA",null,0],
+[7,null,"GNVB 1",null,0,"AFA",null,0],[7,null,"GNVB 2",null,0,"BI'AS",null,0],
+[7,null,"ASI 2",null,0,"SQUAD",null,0],[7,null,"AMVB",null,0,"2AVB",null,0],
+[8,null,"GNVB 1",null,0,"ASI 1",null,0],[8,null,"GNVB 2",null,0,"AMVB",null,0],
+[8,null,"AFA",null,0,"BI'AS",null,0],[8,null,"2AVB",null,0,"SQUAD",null,0],
+[9,null,"GNVB 1",null,0,"ASI 2",null,0],[9,null,"GNVB 2",null,0,"AFA",null,0],
+[9,null,"ASI 1",null,0,"SQUAD",null,0],[9,null,"AMVB",null,0,"BI'AS",null,0]
+]};
+
+let vlyV = "M";
+const vlyJ = {M:9, F:4};
+
+document.getElementById("vltabs").addEventListener("click", e=>{
+  if(!e.target.classList.contains("tab")) return;
+  document.querySelectorAll("#vltabs .tab").forEach(t=>t.classList.remove("on"));
+  e.target.classList.add("on");
+  vlyV = e.target.dataset.v;
+  vlyRender();
+});
+window.vlyNav = function(dir){
+  const j = vlyJ[vlyV] + dir;
+  if(j>=1 && j<=9){ vlyJ[vlyV]=j; vlyRender(); }
+};
+function vlyStandings(g){
+  const st = {};
+  const T = n => st[n] || (st[n]={n:n,j:0,v:0,d:0,pts:0,sg:0,sp:0,pg:0,pp:0,form:[]});
+  VLY[g].forEach(m=>{T(m[2]);T(m[5]);});
+  VLY[g].filter(m=>m[3]!==null).sort((a,b)=>a[0]-b[0]).forEach(m=>{
+    const t1=T(m[2]), t2=T(m[5]), s1=m[3], s2=m[6];
+    t1.j++;t2.j++; t1.sg+=s1;t1.sp+=s2; t2.sg+=s2;t2.sp+=s1;
+    t1.pg+=m[4];t1.pp+=m[7]; t2.pg+=m[7];t2.pp+=m[4];
+    if(s1===3){t1.v++;t2.d++;t1.pts+=(s2===2?2:3);if(s2===2)t2.pts+=1;t1.form.push("w");t2.form.push("l");}
+    else{t2.v++;t1.d++;t2.pts+=(s1===2?2:3);if(s1===2)t1.pts+=1;t2.form.push("w");t1.form.push("l");}
+  });
+  return Object.values(st).sort((a,b)=>{
+    if(b.v!==a.v) return b.v-a.v;
+    if(b.pts!==a.pts) return b.pts-a.pts;
+    const ra=a.sp?a.sg/a.sp:a.sg*100, rb=b.sp?b.sg/b.sp:b.sg*100;
+    if(rb!==ra) return rb-ra;
+    const pa=a.pp?a.pg/a.pp:0, pb=b.pp?b.pg/b.pp:0;
+    return pb-pa;
+  });
+}
+function vlyRender(){
+  const g = vlyV, j = vlyJ[g];
+  const ms = VLY[g].filter(m=>m[0]===j);
+  const rows = vlyStandings(g);
+  document.getElementById("volleyview").innerHTML = `
+    <div class="jnav">
+      <button onclick="vlyNav(-1)" ${j===1?"disabled":""}>‹</button>
+      <span class="jlab">Journée ${j} / 9</span>
+      <button onclick="vlyNav(1)" ${j===9?"disabled":""}>›</button>
+    </div>
+    <div class="mlist">${ms.map(m=>`
+      <div class="mrow">
+        <div class="h">${m[2]}</div>
+        ${m[3]===null
+          ? `<div class="sc int" style="font-size:11px">REPORTÉ</div>`
+          : `<div class="sc">${m[3]} – ${m[6]}</div>`}
+        <div class="a">${m[5]}</div>
+        <div class="dt">${m[1]?m[1]+" 2026":(m[3]===null?"nouvelle date à venir":"date non précisée")}</div>
+      </div>`).join("")}</div>
+    <table class="pfltab">
+      <thead><tr><th>#</th><th style="text-align:left">Équipe</th><th>MJ</th><th>V</th><th>D</th>
+      <th class="hide-m">Sets +</th><th class="hide-m">Sets −</th><th>Pts</th><th>Forme</th></tr></thead>
+      <tbody>${rows.map((r,i)=>`
+        <tr class="${i===0?'zpo':''}"><td><b>${i+1}</b></td><td class="tn">${r.n}</td>
+        <td>${r.j}</td><td>${r.v}</td><td>${r.d}</td>
+        <td class="hide-m">${r.sg}</td><td class="hide-m">${r.sp}</td>
+        <td class="pts">${r.pts}</td>
+        <td>${r.form.slice(-5).map(f=>`<span class="fdot ${f}"></span>`).join("")}</td></tr>`).join("")}</tbody>
+    </table>
+    <div class="legend">
+      <span><i style="background:var(--green2)"></i>Leader — en course pour le sommet national</span>
+    </div>`;
+}
+vlyRender();
 
 /* ================================================================
    RUGBY XV — XXL ENERGY TOP 12 (source : L'Express de Madagascar)
