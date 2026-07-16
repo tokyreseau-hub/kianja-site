@@ -244,6 +244,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
       <a class="item" href="#n1a">Basket N1A</a>
       <a class="item" href="#top12">Rugby Top 12</a>
       <a class="item" href="#volley">Volley</a>
+      <a class="item" href="#tennis">Tennis</a>
       <a class="item" href="#replays">Replays</a>
       <a class="item" href="#calendrier">Calendrier</a>
       <a class="item" href="#classement">Palmarès</a>
@@ -335,6 +336,18 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
     (9 équipes par tableau, 9 journées ; les matchs « reporté » attendent une nouvelle date).
     Classement : victoires, puis points (3-0/3-1 = 3 pts · 3-2 = 2 pts · 2-3 = 1 pt), puis ratio de sets.
     Contexte national : GNVB vice-champion Zone 7 clubs (mars, Seychelles) · Zone 7 U18 à Tana en août · sommet national FMVB attendu sept.-oct.</p>
+  </div>
+</section>
+
+<!-- ============ TENNIS ============ -->
+<section id="tennis" class="pfl" style="border-top:1px solid #1B3542">
+  <div class="wrap">
+    <div class="sectitle"><span class="bar" style="background:var(--red)"></span><h2>Tennis — Les Akomba à la Billie Jean King Cup</h2>
+      <span class="champbadge">Gaborone · 13-18 juil.</span></div>
+    <div id="tennisview"></div>
+    <p class="note" style="color:#8FA6B2">Groupe III Afrique · National Tennis Centre, Gaborone (Botswana).
+    Équipe de Madagascar : Harena Voaviandraina, Iariniaina Tsantaniony, Elisa Andriantefihasina.
+    Sources : L'Express de Madagascar, 2424.mg, Newsmada (juillet 2026).</p>
   </div>
 </section>
 
@@ -481,6 +494,8 @@ const NEXT = {
 
 /* Derniers résultats (réels — sources : L'Express, 2424.mg, Midi Madagasikara) */
 const RESULTS = [
+  {sport:"tennis",comp:"Billie Jean King Cup · Gr. III", a:"Nigeria", sa:3, b:"Madagascar", sb:0, st:"Gaborone · 16 juil. · adieu à la montée"},
+  {sport:"tennis",comp:"Billie Jean King Cup · Gr. III", a:"Madagascar", sa:3, b:"Burundi", sb:0, st:"Gaborone · 14 juil."},
   {sport:"foot",  comp:"Coupe de Madagascar · Quart", a:"Cosfa", sa:1, b:"CFFA", sb:0, st:"juil. 2026"},
   {sport:"foot",  comp:"Coupe de Madagascar · Quart", a:"AS Sainte-Anne (5 t.a.b. 4)", sa:0, b:"Elgeco Plus", sb:0, st:"juil. 2026"},
   {sport:"foot",  comp:"Finale PFL", a:"CFFA — champion 2026", sa:2, b:"Ajesaia", sb:1, st:"fin juin 2026"},
@@ -522,7 +537,7 @@ const RANKING = [
   ["Basketball — N1A Phase 1 Nord", "COSPN (hommes) · GNBC invaincue (dames)", "Phase finale fin sept. à Antananarivo"],
   ["Volleyball — CAVB Zone 7", "GNVB vice-champion (finale vs Tampon Gecko)", "Zone 7 U18 en août à Tana · Zone 7 seniors à Tana début 2027"],
   ["Rugby à VII — Makis", "Vice-champions d'Afrique 2025", "Qualifiés World Rugby Challenger Series 2026"],
-  ["Tennis", "Championnat national seniors du 17 au 29 août", "Madagascar accueillera le tennis des JIOI 2027"],
+  ["Tennis — Billie Jean King Cup", "Akomba : 2 victoires, 1 défaite à Gaborone (Gr. III Afrique)", "Montée en Groupe II manquée · national seniors du 17 au 29 août · JIOI 2027 à Madagascar"],
 ];
 
 /* ================================================================
@@ -603,6 +618,7 @@ $("#ticker").innerHTML =
   '<span><b>Rugby</b> : Cosfa boucle la phase régulière du Top 12 invaincu</span>' +
   '<span><b>N1A</b> : phase finale fin septembre à Antananarivo</span>' +
   '<span><b>Volley</b> : la Zone 7 U18 débarque à Tana en août</span>' +
+  '<span><b>Tennis</b> : les Akomba battues par le Nigeria à Gaborone, la montée attendra 2027</span>' +
   RESULTS.slice(0,4).map(r=>`<span><b>${SPORTS[r.sport].label}</b> : ${r.a} ${r.sa}-${r.sb} ${r.b}</span>`).join("");
 
 /* hero — prochain match + compte à rebours */
@@ -979,6 +995,54 @@ function vlyRender(){
     </div>`;
 }
 vlyRender();
+
+/* ================================================================
+   TENNIS — BILLIE JEAN KING CUP, GROUPE III AFRIQUE (juillet 2026)
+   ================================================================ */
+(function(){
+  const el = document.getElementById("tennisview");
+  el.innerHTML = `<div class="bracket" style="align-items:start">
+    <div class="bcol"><h3>Deux victoires pour lancer la campagne</h3>
+      <div class="tie">
+        <div style="font-size:10px;color:#7FB99F;font-weight:800;letter-spacing:.08em;text-transform:uppercase">Lun. 13 juil. · vs Namibie ✓</div>
+        <div class="tm win"><span>Voaviandraina b. Honiball</span><b>6-2, 6-2</b></div>
+        <div class="tm win"><span>Tsantaniony b. Nashiku</span><b>6-0, 6-2</b></div>
+        <div class="legs">Entrée en matière dominée par les Malgaches</div>
+      </div>
+      <div class="tie">
+        <div style="font-size:10px;color:#7FB99F;font-weight:800;letter-spacing:.08em;text-transform:uppercase">Mar. 14 juil. · Madagascar 3-0 Burundi ✓</div>
+        <div class="tm win"><span>Voaviandraina b. Kezakimana</span><b>6-1, 6-1</b></div>
+        <div class="tm win"><span>Tsantaniony b. Ishimwe</span><b>6-1, 6-0</b></div>
+        <div class="tm win"><span>Double malgache</span><b>6-2, 6-3</b></div>
+      </div>
+    </div>
+    <div class="bcol"><h3>Le choc décisif perdu</h3>
+      <div class="tie">
+        <div style="font-size:10px;color:#D8432F;font-weight:800;letter-spacing:.08em;text-transform:uppercase">Nigeria 3-0 Madagascar ✗</div>
+        <div class="tm"><span>Ogunjobi b. Voaviandraina</span><b>en 3 sets</b></div>
+        <div class="tm"><span>Quadre b. Tsantaniony</span><b>6-3, 6-3</b></div>
+        <div class="tm"><span>Mohammed/Quadre b. Andriantefihasina/Tsantaniony</span><b>6-2, 6-0</b></div>
+        <div class="legs">La montée en Groupe II attendra l'édition 2027</div>
+      </div>
+      <div class="tie" style="font-size:12px">
+        <div style="padding:2.5px 0">Bilan : <b>2 victoires, 1 défaite</b> en poule C</div>
+        <div style="padding:2.5px 0">Le Nigeria file vers les barrages d'accession</div>
+      </div>
+    </div>
+    <div class="bcol"><h3>À venir sur les courts</h3>
+      <div class="tie" style="font-size:12.5px">
+        <div class="tm win"><span>Championnat national seniors</span><span>17 – 29 août</span></div>
+        <div class="legs">Simples & doubles · Antananarivo · Ligue Analamanga</div>
+      </div>
+      <div class="finalcard" style="margin-top:10px;background:linear-gradient(135deg,var(--navy),#22404F)">
+        <div class="flab">CAP SUR 2027</div>
+        <div class="fteams">Le tennis des JIOI se jouera à Madagascar</div>
+        <div class="fdate" style="margin-top:6px">Et les Akomba retenteront la montée en Groupe II</div>
+        <div class="fchamp" style="background:#fff">🎥 KIANJA filmera le national en août</div>
+      </div>
+    </div>
+  </div>`;
+})();
 
 /* ================================================================
    RUGBY XV — XXL ENERGY TOP 12 (source : L'Express de Madagascar)
