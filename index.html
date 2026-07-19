@@ -104,6 +104,8 @@ header{background:var(--navy);position:sticky;top:0;z-index:50;box-shadow:0 2px 
 .sportcard small{display:block;font-size:10.5px;color:var(--grey);margin-top:3px;line-height:1.3}
 .sport-sec{display:none}
 .sport-sec.show{display:block}
+.subnav{display:none;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.subnav.show{display:flex}
 
 /* ---------- sections ---------- */
 section{padding:38px 0}
@@ -326,6 +328,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
   <div class="wrap">
     <div class="sectitle"><span class="bar"></span><h2>Nos championnats, sport par sport</h2></div>
     <div class="sportgrid" id="sportgrid"></div>
+    <div class="subnav" id="sportsubnav"></div>
   </div>
 </section>
 
@@ -744,19 +747,27 @@ function render(what, filter="all"){
 }
 render("scores"); render("cal");
 
-/* replays */
-$("#videos").innerHTML = VIDEOS.map(v=>`
-  <div class="vcard">
-    <div class="frame">${v.yt
-      ? `<iframe src="https://www.youtube.com/embed/${v.yt}" allowfullscreen loading="lazy"></iframe>`
-      : `<div class="ph">▶<br>Votre vidéo YouTube ici<br><small style="color:#5B7A8A">(ajoutez l'ID dans la section DATA)</small></div>`}
-    </div>
-    <div class="body"><span class="tag">${v.tag}</span><h3>${v.title}</h3><p>${v.desc}</p></div>
-  </div>`).join("");
+/* replays (filtrables par sport) */
+function videosRender(filter="all"){
+  $("#videos").innerHTML = VIDEOS.filter(v=>filter==="all"||v.sport===filter).map(v=>`
+    <div class="vcard">
+      <div class="frame">${v.yt
+        ? `<iframe src="https://www.youtube.com/embed/${v.yt}" allowfullscreen loading="lazy"></iframe>`
+        : `<div class="ph">▶<br>Votre vidéo YouTube ici<br><small style="color:#5B7A8A">(ajoutez l'ID dans la section DATA)</small></div>`}
+      </div>
+      <div class="body"><span class="tag">${v.tag}</span><h3>${v.title}</h3><p>${v.desc}</p></div>
+    </div>`).join("") || '<p class="note">Pas encore de replay pour ce sport — les prochains matchs filmés arrivent ici.</p>';
+}
+videosRender();
 
-/* palmarès */
-$("#rankbody").innerHTML = RANKING.map(r=>`
-  <tr>${r.map((c,i)=>`<td style="text-align:left;${i==0?'font-weight:700':''}">${c}</td>`).join("")}</tr>`).join("");
+/* palmarès (filtrable par sport) */
+const rankSport = l => l.startsWith("Football")?"foot":l.startsWith("Basketball")?"basket"
+  :l.startsWith("Volley")?"volley":l.startsWith("Rugby")?"rugby":"tennis";
+function rankRender(filter="all"){
+  $("#rankbody").innerHTML = RANKING.filter(r=>filter==="all"||rankSport(r[0])===filter).map(r=>`
+    <tr>${r.map((c,i)=>`<td style="text-align:left;${i==0?'font-weight:700':''}">${c}</td>`).join("")}</tr>`).join("");
+}
+rankRender();
 
 /* ================================================================
    CHAMPIONNAT PFL — navigation par journée, classements, phase finale
@@ -1195,9 +1206,20 @@ const TOP12 = {
       <span class="ico" style="background:${s.c}1a">${s.ico}</span>
       <b>${s.nom}</b><small>${s.info}</small>
     </button>`).join("");
+
+  /* sous-menu : catégories du sport choisi */
+  const SPORT_KEY = {championnat:"foot", n1a:"basket", top12:"rugby", volley:"volley", tennis:"tennis"};
+  const sn = document.getElementById("sportsubnav");
+  sn.innerHTML = [["champ","🏆 Championnat"],["replays","▶ Replays"],["cal","📅 Calendrier"],["palm","🏅 Palmarès"]]
+    .map(c=>`<button class="chip" data-k="${c[0]}">${c[1]}</button>`).join("");
+  let curSport = "championnat";
+
   window.showSport = function(id, scroll){
+    curSport = id;
     document.querySelectorAll(".sport-sec").forEach(x=>x.classList.toggle("show", x.id===id));
     document.querySelectorAll(".sportcard").forEach(c=>c.classList.toggle("on", c.dataset.id===id));
+    sn.classList.add("show");
+    sn.querySelectorAll(".chip").forEach((c,i)=>c.classList.toggle("on", i===0));
     if(scroll!==false){
       const s = document.getElementById(id);
       setTimeout(()=>s.scrollIntoView({behavior:"smooth",block:"start"}),30);
@@ -1205,8 +1227,26 @@ const TOP12 = {
   };
   sg.addEventListener("click", e=>{
     const c = e.target.closest(".sportcard");
-    if(c) showSport(c.dataset.id);
+    if(c) showSport(c.dataset.id, false);
   });
+  sn.addEventListener("click", e=>{
+    const c = e.target.closest(".chip");
+    if(!c) return;
+    sn.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));
+    c.classList.add("on");
+    const sport = SPORT_KEY[curSport];
+    let target = curSport;
+    if(c.dataset.k==="replays"){ videosRender(sport); target="replays"; }
+    if(c.dataset.k==="cal"){ render("cal", sport); syncChips("cal", sport); target="calendrier"; }
+    if(c.dataset.k==="palm"){ rankRender(sport); target="classement"; }
+    const s = document.getElementById(target);
+    if(s.classList.contains("fold")) s.classList.add("open");
+    setTimeout(()=>s.scrollIntoView({behavior:"smooth",block:"start"}),30);
+  });
+  function syncChips(t, sport){
+    document.querySelectorAll(`.chips[data-target="${t}"] .chip`).forEach(c=>
+      c.classList.toggle("on", c.dataset.s===sport));
+  }
 
   /* ----- sections actualités repliables ----- */
   const FOLDS = {
