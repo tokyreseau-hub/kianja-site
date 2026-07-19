@@ -106,6 +106,8 @@ header{background:var(--navy);position:sticky;top:0;z-index:50;box-shadow:0 2px 
 .sport-sec.show{display:block}
 .subnav{display:none;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px}
 .subnav.show{display:flex}
+#sponsors{display:none}
+#sponsors.show{display:block}
 
 /* ---------- sections ---------- */
 section{padding:38px 0}
@@ -138,6 +140,8 @@ section{padding:38px 0}
 .tab{border:1.5px solid #23404F;background:transparent;color:#C4D2DA;border-radius:999px;
   padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer}
 .tab.on{background:var(--green);border-color:var(--green);color:#fff}
+.comptabs{margin-bottom:20px;padding-bottom:16px;border-bottom:1px solid #1B3542}
+.comptabs .tab.on{background:var(--gold);border-color:var(--gold);color:#101820}
 .jnav{display:flex;align-items:center;justify-content:center;gap:16px;margin:4px 0 16px}
 .jnav button{background:#15303F;border:1px solid #23404F;color:#fff;width:36px;height:36px;
   border-radius:50%;font-size:16px;cursor:pointer;line-height:1}
@@ -335,72 +339,108 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
 <!-- ============ CHAMPIONNAT PFL ============ -->
 <section id="championnat" class="pfl sport-sec">
   <div class="wrap">
-    <div class="sectitle"><span class="bar"></span><h2>Pure Play Football League 2025-26</h2>
-      <span class="champbadge">🏆 CFFA champion</span></div>
-    <div class="tabs" id="pfltabs">
-      <button class="tab on" data-v="P">Phase finale</button>
-      <button class="tab" data-v="N">Conférence Nord</button>
-      <button class="tab" data-v="S">Conférence Sud</button>
+    <div class="sectitle"><span class="bar"></span><h2>Football — les compétitions</h2>
+      <span class="champbadge">🏆 CFFA champion PFL</span></div>
+    <div class="tabs comptabs">
+      <button class="tab on" data-c="pfl">PFL 2025-26</button>
+      <button class="tab" data-c="coupe">Yas Coupe de Madagascar</button>
+      <button class="tab" data-c="l1">Ligue 1 Analamanga</button>
     </div>
-    <div id="pflview"></div>
-    <p class="note" style="color:#8FA6B2">Saison complète : 98 matchs de conférence + phase finale en aller-retour.
-    Forme = 5 derniers matchs (vert : victoire, gris : nul, rouge : défaite).</p>
+    <div class="compview" data-comp="pfl">
+      <div class="tabs" id="pfltabs">
+        <button class="tab on" data-v="P">Phase finale</button>
+        <button class="tab" data-v="N">Conférence Nord</button>
+        <button class="tab" data-v="S">Conférence Sud</button>
+      </div>
+      <div id="pflview"></div>
+      <p class="note" style="color:#8FA6B2">Saison complète : 98 matchs de conférence + phase finale en aller-retour.
+      Forme = 5 derniers matchs (vert : victoire, gris : nul, rouge : défaite).</p>
+    </div>
+    <div class="compview" data-comp="coupe" id="coupeview" style="display:none"></div>
+    <div class="compview" data-comp="l1" id="l1view" style="display:none"></div>
   </div>
 </section>
 
 <!-- ============ BASKETBALL N1A ============ -->
 <section id="n1a" class="pfl sport-sec" style="border-top:1px solid #1B3542;background:linear-gradient(160deg,#0C1F2A,var(--navy))">
   <div class="wrap">
-    <div class="sectitle"><span class="bar" style="background:var(--gold)"></span><h2>Basketball N1A 2026 — Phase 1</h2>
+    <div class="sectitle"><span class="bar" style="background:var(--gold)"></span><h2>Basketball — les compétitions</h2>
       <span class="champbadge" style="background:var(--red);color:#fff">Phase finale fin sept.</span></div>
-    <div class="tabs" id="n1atabs">
-      <button class="tab on" data-v="h">Hommes</button>
-      <button class="tab" data-v="f">Dames</button>
+    <div class="tabs comptabs">
+      <button class="tab on" data-c="phase1">N1A · Phase 1</button>
+      <button class="tab" data-c="finale">N1A · Phase finale</button>
     </div>
-    <div id="n1aview"></div>
-    <p class="note" style="color:#8FA6B2">12 équipes engagées (hommes et dames). Phase 1 en deux zones, puis poule unique croisée
-    à Antananarivo : les 4 premiers en demi-finales. Sources : FMBB, L'Express de Madagascar, 2424.mg (avril-mai 2026).</p>
+    <div class="compview" data-comp="phase1">
+      <div class="tabs" id="n1atabs">
+        <button class="tab on" data-v="h">Hommes</button>
+        <button class="tab" data-v="f">Dames</button>
+      </div>
+      <div id="n1aview"></div>
+      <p class="note" style="color:#8FA6B2">12 équipes engagées (hommes et dames). Phase 1 en deux zones, puis poule unique croisée
+      à Antananarivo : les 4 premiers en demi-finales. Sources : FMBB, L'Express de Madagascar, 2424.mg (avril-mai 2026).</p>
+    </div>
+    <div class="compview" data-comp="finale" id="n1afinaleview" style="display:none"></div>
   </div>
 </section>
 
 <!-- ============ RUGBY TOP 12 ============ -->
 <section id="top12" class="pfl sport-sec" style="border-top:1px solid #1B3542">
   <div class="wrap">
-    <div class="sectitle"><span class="bar" style="background:var(--red)"></span><h2>Rugby XV — XXL Energy Top 12</h2>
+    <div class="sectitle"><span class="bar" style="background:var(--red)"></span><h2>Rugby — les compétitions</h2>
       <span class="champbadge">Cosfa invaincu · 11 v.</span></div>
-    <div id="top12view"></div>
-    <p class="note" style="color:#8FA6B2">Phase régulière terminée le 12 juillet au stade Makis d'Andohatapenaka.
-    Classement partiel — Malagasy Rugby ne publie pas les feuilles de match complètes ; le journée-par-journée
-    intégral arrivera avec la convention KIANJA × Malagasy Rugby. Sources : L'Express de Madagascar (juillet 2026).</p>
+    <div class="tabs comptabs">
+      <button class="tab on" data-c="xv">XXL Energy Top 12 · XV</button>
+      <button class="tab" data-c="vii">Rugby à VII · Makis</button>
+    </div>
+    <div class="compview" data-comp="xv">
+      <div id="top12view"></div>
+      <p class="note" style="color:#8FA6B2">Phase régulière terminée le 12 juillet au stade Makis d'Andohatapenaka.
+      Classement partiel — Malagasy Rugby ne publie pas les feuilles de match complètes ; le journée-par-journée
+      intégral arrivera avec la convention KIANJA × Malagasy Rugby. Sources : L'Express de Madagascar (juillet 2026).</p>
+    </div>
+    <div class="compview" data-comp="vii" id="rugby7view" style="display:none"></div>
   </div>
 </section>
 
 <!-- ============ VOLLEY ============ -->
 <section id="volley" class="pfl sport-sec" style="border-top:1px solid #1B3542;background:linear-gradient(160deg,#0C1F2A,var(--navy))">
   <div class="wrap">
-    <div class="sectitle"><span class="bar" style="background:var(--green2)"></span><h2>Volley — Championnat d'Analamanga · 1ère division</h2>
+    <div class="sectitle"><span class="bar" style="background:var(--green2)"></span><h2>Volley — les compétitions</h2>
       <span class="champbadge" style="background:var(--green2);color:#fff">Saison 2026 en cours</span></div>
-    <div class="tabs" id="vltabs">
-      <button class="tab on" data-v="M">Hommes</button>
-      <button class="tab" data-v="F">Dames</button>
+    <div class="tabs comptabs">
+      <button class="tab on" data-c="analamanga">1re division Analamanga</button>
+      <button class="tab" data-c="zone7">Zone 7 & National</button>
     </div>
-    <div id="volleyview"></div>
-    <p class="note" style="color:#8FA6B2">Données officielles de la Ligue Régionale de Volley-Ball Analamanga
-    (9 équipes par tableau, 9 journées ; les matchs « reporté » attendent une nouvelle date).
-    Classement : victoires, puis points (3-0/3-1 = 3 pts · 3-2 = 2 pts · 2-3 = 1 pt), puis ratio de sets.
-    Contexte national : GNVB vice-champion Zone 7 clubs (mars, Seychelles) · Zone 7 U18 à Tana en août · sommet national FMVB attendu sept.-oct.</p>
+    <div class="compview" data-comp="analamanga">
+      <div class="tabs" id="vltabs">
+        <button class="tab on" data-v="M">Hommes</button>
+        <button class="tab" data-v="F">Dames</button>
+      </div>
+      <div id="volleyview"></div>
+      <p class="note" style="color:#8FA6B2">Données officielles de la Ligue Régionale de Volley-Ball Analamanga
+      (9 équipes par tableau, 9 journées ; les matchs « reporté » attendent une nouvelle date).
+      Classement : victoires, puis points (3-0/3-1 = 3 pts · 3-2 = 2 pts · 2-3 = 1 pt), puis ratio de sets.</p>
+    </div>
+    <div class="compview" data-comp="zone7" id="vlyzone7view" style="display:none"></div>
   </div>
 </section>
 
 <!-- ============ TENNIS ============ -->
 <section id="tennis" class="pfl sport-sec" style="border-top:1px solid #1B3542">
   <div class="wrap">
-    <div class="sectitle"><span class="bar" style="background:var(--red)"></span><h2>Tennis — Les Akomba à la Billie Jean King Cup</h2>
+    <div class="sectitle"><span class="bar" style="background:var(--red)"></span><h2>Tennis — les compétitions</h2>
       <span class="champbadge">Gaborone · 13-18 juil.</span></div>
-    <div id="tennisview"></div>
-    <p class="note" style="color:#8FA6B2">Groupe III Afrique · National Tennis Centre, Gaborone (Botswana).
-    Équipe de Madagascar : Harena Voaviandraina, Iariniaina Tsantaniony, Elisa Andriantefihasina.
-    Sources : L'Express de Madagascar, 2424.mg, Newsmada (juillet 2026).</p>
+    <div class="tabs comptabs">
+      <button class="tab on" data-c="bjk">Billie Jean King Cup</button>
+      <button class="tab" data-c="national">National seniors</button>
+    </div>
+    <div class="compview" data-comp="bjk">
+      <div id="tennisview"></div>
+      <p class="note" style="color:#8FA6B2">Groupe III Afrique · National Tennis Centre, Gaborone (Botswana).
+      Équipe de Madagascar : Harena Voaviandraina, Iariniaina Tsantaniony, Elisa Andriantefihasina.
+      Sources : L'Express de Madagascar, 2424.mg, Newsmada (juillet 2026).</p>
+    </div>
+    <div class="compview" data-comp="national" id="tennisnatview" style="display:none"></div>
   </div>
 </section>
 
@@ -1189,6 +1229,195 @@ const TOP12 = {
 })();
 
 /* ================================================================
+   COMPÉTITIONS PAR SPORT — onglets dorés + vues secondaires
+   ================================================================ */
+document.querySelectorAll(".comptabs").forEach(bar=>{
+  bar.addEventListener("click", e=>{
+    const t = e.target.closest(".tab"); if(!t) return;
+    bar.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+    t.classList.add("on");
+    bar.parentElement.querySelectorAll(".compview").forEach(v=>
+      v.style.display = v.dataset.comp===t.dataset.c ? "" : "none");
+  });
+});
+
+/* Football — Yas Coupe de Madagascar */
+document.getElementById("coupeview").innerHTML = `<div class="bracket" style="align-items:start">
+  <div class="bcol"><h3>Quarts de finale</h3>
+    <div class="tie">
+      <div class="tm win"><span>Cosfa</span><b>1</b></div>
+      <div class="tm"><span>CFFA</span><b>0</b></div>
+    </div>
+    <div class="tie">
+      <div class="tm win"><span>AS Sainte-Anne</span><b>0 (5)</b></div>
+      <div class="tm"><span>Elgeco Plus</span><b>0 (4)</b></div>
+      <div class="legs">Qualification aux tirs au but</div>
+    </div>
+    <div class="tie">
+      <div class="tm win"><span>FC Wagner</span><span>✓</span></div>
+      <div class="legs">Qualifié pour les demi-finales</div>
+    </div>
+    <div class="tie">
+      <div class="tm win"><span>FC Rouge</span><span>✓</span></div>
+      <div class="legs">Qualifié pour les demi-finales</div>
+    </div>
+  </div>
+  <div class="bcol"><h3>Demi-finales · mer. 22 juil.</h3>
+    <div class="tie">
+      <div class="tm"><span>FC Wagner</span><span>vs</span></div>
+      <div class="tm"><span>AS Sainte-Anne</span><span></span></div>
+      <div class="legs">🔴 En direct sur KIANJA</div>
+    </div>
+    <div class="tie">
+      <div class="tm"><span>Cosfa</span><span>vs</span></div>
+      <div class="tm"><span>FC Rouge</span><span></span></div>
+      <div class="legs">🔴 En direct sur KIANJA</div>
+    </div>
+  </div>
+  <div class="bcol"><h3>Finale</h3>
+    <div class="finalcard">
+      <div class="flab">FINALE · SAM. 25 JUILLET</div>
+      <div class="fteams">Vainqueurs des demi-finales</div>
+      <div class="fdate" style="margin-top:6px">Antananarivo · stade à confirmer</div>
+      <div class="fchamp" style="background:#fff">🎥 En direct sur KIANJA</div>
+    </div>
+  </div>
+</div>`;
+
+/* Football — Ligue 1 Analamanga */
+document.getElementById("l1view").innerHTML = `<div class="bracket" style="align-items:start">
+  <div class="bcol"><h3>Le championnat régional</h3>
+    <div class="tie" style="font-size:12.5px">
+      <div class="tm"><span>Clubs engagés</span><b>~25</b></div>
+      <div class="tm"><span>Matchs par week-end</span><b>jusqu'à 6</b></div>
+      <div class="tm"><span>Stade</span><b>CFFA Andoharanofotsy</b></div>
+    </div>
+  </div>
+  <div class="bcol"><h3>Équipes en forme</h3>
+    <div class="tie">
+      <div class="tm win"><span>St Gabriel</span><span>✓</span></div>
+      <div class="tm win"><span>Elgeco Plus</span><span>✓</span></div>
+      <div class="legs">Les équipes en vue en ce début de saison</div>
+    </div>
+  </div>
+  <div class="bcol"><h3>Sur KIANJA</h3>
+    <div class="finalcard">
+      <div class="flab">COUVERTURE EN PRÉPARATION</div>
+      <div class="fteams">Résultats journée par journée à venir</div>
+      <div class="fdate" style="margin-top:6px">Des matchs chaque week-end</div>
+      <div class="fchamp" style="background:#fff">🎥 KIANJA au bord des terrains</div>
+    </div>
+  </div>
+</div>`;
+
+/* Rugby à VII — Makis */
+document.getElementById("rugby7view").innerHTML = `<div class="bracket" style="align-items:start">
+  <div class="bcol"><h3>Palmarès récent</h3>
+    <div class="tie">
+      <div class="tm win"><span>Vice-champions d'Afrique</span><span>2025</span></div>
+      <div class="legs">Les Makis VII sur le podium continental</div>
+    </div>
+    <div class="tie">
+      <div class="tm win"><span>World Rugby Challenger Series</span><span>2026</span></div>
+      <div class="legs">Qualification historique</div>
+    </div>
+  </div>
+  <div class="bcol"><h3>Prochain objectif</h3>
+    <div class="tie">
+      <div class="tm"><span>Africa Men's Sevens Cup</span><span>3-4 oct.</span></div>
+      <div class="legs">Cascavelle, Maurice · les Makis visent le podium</div>
+    </div>
+  </div>
+  <div class="bcol"><h3>&nbsp;</h3>
+    <div class="finalcard" style="background:linear-gradient(135deg,var(--red),#A32E1F)">
+      <div class="flab">RUGBY À VII</div>
+      <div class="fteams">Madagascar, place forte du VII africain</div>
+      <div class="fchamp" style="background:#fff">🎥 Suivi complet sur KIANJA</div>
+    </div>
+  </div>
+</div>`;
+
+/* Basket — phase finale N1A */
+document.getElementById("n1afinaleview").innerHTML = `<div class="bracket" style="align-items:start">
+  <div class="bcol"><h3>Format</h3>
+    <div class="tie" style="font-size:12.5px">
+      <div class="tm"><span>Poule unique croisée</span><b>Centre × Nord</b></div>
+      <div class="tm"><span>Qualifiés</span><b>4 premiers</b></div>
+      <div class="tm"><span>Puis</span><b>demi-finales & finale</b></div>
+    </div>
+  </div>
+  <div class="bcol"><h3>Favoris (d'après la phase 1)</h3>
+    <div class="tie">
+      <div class="tm win"><span>COSPN — tenant du titre (H)</span><span></span></div>
+      <div class="tm win"><span>GNBC — invaincue (F)</span><span></span></div>
+    </div>
+  </div>
+  <div class="bcol"><h3>Rendez-vous</h3>
+    <div class="finalcard">
+      <div class="flab">PHASE FINALE N1A</div>
+      <div class="fteams">Hommes & dames · Antananarivo</div>
+      <div class="fdate" style="margin-top:6px">Fin septembre – début octobre 2026</div>
+      <div class="fchamp" style="background:#fff">🎥 KIANJA filmera la phase finale</div>
+    </div>
+  </div>
+</div>`;
+
+/* Volley — Zone 7 & national */
+document.getElementById("vlyzone7view").innerHTML = `<div class="bracket" style="align-items:start">
+  <div class="bcol"><h3>Zone 7 clubs · Seychelles (mars)</h3>
+    <div class="tie">
+      <div class="tm win"><span>Tampon Gecko (Réunion)</span><b>3</b></div>
+      <div class="tm"><span>GNVB</span><b>1</b></div>
+      <div class="legs">GNVB vice-champion de la Zone 7</div>
+    </div>
+  </div>
+  <div class="bcol"><h3>À venir</h3>
+    <div class="tie">
+      <div class="tm win"><span>Zone 7 U18</span><span>août</span></div>
+      <div class="legs">1re édition à Madagascar · 7 pays · Antananarivo</div>
+    </div>
+    <div class="tie">
+      <div class="tm win"><span>Championnat de Madagascar</span><span>sept.-oct.</span></div>
+      <div class="legs">Le sommet national FMVB</div>
+    </div>
+  </div>
+  <div class="bcol"><h3>&nbsp;</h3>
+    <div class="finalcard" style="background:linear-gradient(135deg,var(--green2),#0A5738)">
+      <div class="flab">VOLLEY MALGACHE</div>
+      <div class="fteams">Du régional au continental</div>
+      <div class="fchamp" style="background:#fff">🎥 KIANJA suivra le national</div>
+    </div>
+  </div>
+</div>`;
+
+/* Tennis — national seniors */
+document.getElementById("tennisnatview").innerHTML = `<div class="bracket" style="align-items:start">
+  <div class="bcol"><h3>Championnat national seniors</h3>
+    <div class="tie">
+      <div class="tm win"><span>Simples & doubles</span><span>17–29 août</span></div>
+      <div class="legs">Antananarivo · organisé par la Ligue Analamanga</div>
+    </div>
+  </div>
+  <div class="bcol"><h3>Horizon 2027</h3>
+    <div class="tie">
+      <div class="tm win"><span>JIOI 2027</span><span>Madagascar</span></div>
+      <div class="legs">Le tennis des Jeux des îles à domicile</div>
+    </div>
+    <div class="tie">
+      <div class="tm win"><span>BJK Cup 2027</span><span>Groupe III</span></div>
+      <div class="legs">Nouvel assaut vers le Groupe II</div>
+    </div>
+  </div>
+  <div class="bcol"><h3>&nbsp;</h3>
+    <div class="finalcard" style="background:linear-gradient(135deg,var(--navy),#22404F)">
+      <div class="flab">TENNIS MALGACHE</div>
+      <div class="fteams">La relève des Akomba se joue ici</div>
+      <div class="fchamp" style="background:#fff">🎥 KIANJA filmera le national en août</div>
+    </div>
+  </div>
+</div>`;
+
+/* ================================================================
    ACCUEIL MINIMAL — sections repliables + résultats tronqués
    ================================================================ */
 (function(){
@@ -1279,6 +1508,7 @@ const TOP12 = {
       if(!s) return;
       if(s.classList.contains("fold")) s.classList.add("open");
       if(s.classList.contains("sport-sec")) showSport(id, false);
+      if(id==="sponsors") s.classList.add("show");
     });
   });
   // ouverture directe via l'URL (#top12, etc.), sinon football par défaut
@@ -1287,6 +1517,7 @@ const TOP12 = {
   if(hs && hs.classList.contains("sport-sec")) showSport(h, false);
   else showSport("championnat", false);
   if(hs && hs.classList.contains("fold")) hs.classList.add("open");
+  if(h==="sponsors" && hs) hs.classList.add("show");
   // résultats : 3 cartes + bouton
   const resSec = document.getElementById("resultats");
   const btn = document.createElement("button");
