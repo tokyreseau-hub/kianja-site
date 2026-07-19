@@ -843,8 +843,8 @@ const N1A = {
   h:{
     centre:{titre:"Zone Centre · Antsirabe",dates:"11 – 19 avril · Gymnase Vatofotsy",
       scores:[["GNBC Analamanga",107,"Fandrasa H. Matsiatra",68,""],["COSFA Analamanga",75,"ASCUT Atsinanana",70,""]],
-      bilan:["GNBC Analamanga — 4 pts (+70)","MBC Atsinanana — 4 pts (+43)","ASCUT Atsinanana — 3 pts (+22)",
-             "COSFA Analamanga — 3 pts (−26)","SBC Vakinankaratra — 2 pts (−53)","Fandrasa H. Matsiatra — 2 pts (−56)"],
+      tab:[["GNBC Analamanga",4,70],["MBC Atsinanana",4,43],["ASCUT Atsinanana",3,22],
+           ["COSFA Analamanga",3,-26],["SBC Vakinankaratra",2,-53],["Fandrasa H. Matsiatra",2,-56]],
       note:"Classement après 2 journées"},
     nord:{titre:"Zone Nord · Mahajanga",dates:"25 avril – 3 mai · Complexe sportif",
       scores:[["COSPN",91,"ASCUM Mahajanga",55,"Finale"],["BCB Boeny",80,"RBC Boeny",69,"3e place"],["RBC Boeny",84,"COSPN",75,"Poule"]],
@@ -855,8 +855,8 @@ const N1A = {
   f:{
     centre:{titre:"Zone Centre · Antsirabe",dates:"11 – 19 avril · Gymnase Vatofotsy",
       scores:[["MB2ALL Analamanga",48,"JEA Vakinankaratra",47,""]],
-      bilan:["MB2ALL Analamanga — 4 pts (+63)","Ankaratra Vakinankaratra — 4 pts (+49)","JEA Vakinankaratra — 3 pts (+33)",
-             "JCBA Analamanga — 3 pts (−12)","EBF Haute Matsiatra — 2 pts (−37)","Varsity Anosy — 2 pts (−96)"],
+      tab:[["MB2ALL Analamanga",4,63],["Ankaratra Vakinankaratra",4,49],["JEA Vakinankaratra",3,33],
+           ["JCBA Analamanga",3,-12],["EBF Haute Matsiatra",2,-37],["Varsity Anosy",2,-96]],
       note:"Classement après 2 journées"},
     nord:{titre:"Zone Nord · Mahajanga",dates:"25 avril – 3 mai · Complexe sportif",
       scores:[["GNBC Analamanga",73,"BC Somava",62,"Finale"],["Dunamis",58,"ASSM Analamanga",44,"3e place"]],
@@ -876,21 +876,29 @@ document.getElementById("n1atabs").addEventListener("click", e=>{
 });
 
 function n1aScore(s){
-  const w1 = s[1]>s[3], w2 = s[3]>s[1];
-  return `<div class="tie">
-    ${s[4]?`<div style="font-size:10px;color:#7FB99F;font-weight:800;letter-spacing:.08em;text-transform:uppercase">${s[4]}</div>`:""}
-    <div class="tm ${w1?'win':''}"><span>${s[0]}</span><b>${s[1]}</b></div>
-    <div class="tm ${w2?'win':''}"><span>${s[2]}</span><b>${s[3]}</b></div>
+  return `<div class="mrow">
+    <div class="h">${s[0]}</div>
+    <div class="sc">${s[1]} – ${s[3]}</div>
+    <div class="a">${s[2]}</div>
+    ${s[4]?`<div class="dt">${s[4]}</div>`:""}
   </div>`;
 }
 function n1aZone(z){
+  const detail = z.tab
+    ? `<table class="pfltab" style="margin-top:10px">
+        <thead><tr><th>#</th><th style="text-align:left">Équipe</th><th>Pts</th><th>+/-</th></tr></thead>
+        <tbody>${z.tab.map((r,i)=>`
+          <tr class="${i===0?'zpo':''}"><td><b>${i+1}</b></td><td class="tn">${r[0]}</td>
+          <td class="pts">${r[1]}</td><td>${r[2]>0?"+":""}${r[2]}</td></tr>`).join("")}</tbody>
+      </table>`
+    : `<div class="tie" style="font-size:12px;margin-top:10px">
+        ${z.bilan.map(b=>`<div style="padding:2.5px 0">${b}</div>`).join("")}
+      </div>`;
   return `<div class="bcol"><h3>${z.titre}</h3>
     <div style="text-align:center;font-size:11px;color:#8FA6B2;margin:-6px 0 10px">${z.dates}</div>
-    ${z.scores.map(n1aScore).join("")}
-    <div class="tie" style="font-size:12px">
-      ${z.bilan.map(b=>`<div style="padding:2.5px 0">${b}</div>`).join("")}
-      ${z.note?`<div class="legs">${z.note}</div>`:""}
-    </div>
+    <div class="mlist" style="margin:0 0 4px;max-width:none">${z.scores.map(n1aScore).join("")}</div>
+    ${detail}
+    ${z.note?`<div class="legend" style="margin-top:8px"><span>${z.note}</span></div>`:""}
   </div>`;
 }
 function n1aRender(){
@@ -1088,51 +1096,61 @@ const TOP12 = {
     {j:"J9",a:"US Ankadifotsy",sa:24,b:"UAS Cheminots",sb:9,note:""}
   ],
   classement:[
-    ["1","Cosfa","Invaincu — 11 victoires · +221 (J10)","zpo"],
-    ["2","CEA Andranomanalina","47 pts · +219 (J10)","zpo"],
-    ["3","Uscar","Barragiste","zpo"],
-    ["4","FTM Manjakaray","Champion en titre","zpo"],
-    ["5","US Ankadifotsy","34 pts · +54 (J10)",""],
-    ["7","TFMA Ankasina","22 pts (J10)",""]
+    [1,"Cosfa","11","—","+221","Invaincu","zpo"],
+    [2,"CEA Andranomanalina","—","47","+219","","zpo"],
+    [3,"Uscar","—","—","—","Barragiste","zpo"],
+    [4,"FTM Manjakaray","—","—","—","Champion en titre","zpo"],
+    [5,"US Ankadifotsy","—","34","+54","",""],
+    [7,"TFMA Ankasina","—","22","—","",""]
   ]
 };
 
 (function(){
   const el = document.getElementById("top12view");
-  el.innerHTML = `<div class="bracket" style="align-items:start">
-    <div class="bcol"><h3>Derniers résultats · stade Makis</h3>
-      ${TOP12.resultats.map(r=>`<div class="tie">
-        <div style="font-size:10px;color:#7FB99F;font-weight:800;letter-spacing:.08em;text-transform:uppercase">${r.j}</div>
-        <div class="tm ${r.sa>r.sb?'win':''}"><span>${r.a}</span><b>${r.sa}</b></div>
-        <div class="tm ${r.sb>r.sa?'win':''}"><span>${r.b}</span><b>${r.sb}</b></div>
-        ${r.note?`<div class="legs">${r.note}</div>`:""}
-      </div>`).join("")}
+  el.innerHTML = `
+    <div class="mlist">${TOP12.resultats.map(r=>`
+      <div class="mrow">
+        <div class="h">${r.a}</div>
+        <div class="sc">${r.sa} – ${r.sb}</div>
+        <div class="a">${r.b}</div>
+        <div class="dt">${r.j}${r.note?" · "+r.note:""}</div>
+      </div>`).join("")}</div>
+    <table class="pfltab">
+      <thead><tr><th>#</th><th style="text-align:left">Équipe</th><th>V</th><th class="hide-m">Pts</th>
+      <th>+/-</th><th style="text-align:left">Note</th></tr></thead>
+      <tbody>${TOP12.classement.map(c=>`
+        <tr class="${c[6]}"><td><b>${c[0]}</b></td><td class="tn">${c[1]}</td>
+        <td>${c[2]}</td><td class="hide-m pts">${c[3]}</td><td>${c[4]}</td>
+        <td style="text-align:left;font-size:11px;color:#8FA6B2">${c[5]}</td></tr>`).join("")}</tbody>
+    </table>
+    <div class="legend">
+      <span><i style="background:var(--green2)"></i>Qualifiés pour les barrages des demi-finales</span>
+      <span>Classement partiel (J10-J11) — le détail complet arrivera avec la convention Malagasy Rugby</span>
     </div>
-    <div class="bcol"><h3>Classement — fin de phase régulière</h3>
-      <div class="tie">
-        ${TOP12.classement.map(c=>`<div class="tm ${c[3]?'win':''}" style="${c[3]?'':'color:#8FA6B2'}">
-          <span><b style="margin-right:8px;color:${c[3]?'#2EAE6E':'#5B7A8A'}">${c[0]}</b>${c[1]}</span>
-          <span style="font-size:10.5px;font-weight:400;color:#8FA6B2;text-align:right">${c[2]}</span></div>`).join("")}
-        <div class="legs">En vert : qualifiés pour les barrages des demi-finales</div>
+    <div class="bracket" style="margin-top:24px;align-items:start">
+      <div class="bcol"><h3>Barrage 1</h3>
+        <div class="tie">
+          <div class="tm win"><span>Cosfa (1er)</span><span>vs</span></div>
+          <div class="tm"><span>4e du classement</span><span></span></div>
+          <div class="legs">Stade Makis · date à confirmer</div>
+        </div>
       </div>
-    </div>
-    <div class="bcol"><h3>Barrages des demi-finales</h3>
-      <div class="tie">
-        <div class="tm win"><span>Cosfa (1er)</span><span>vs</span></div>
-        <div class="tm"><span>4e du classement</span><span></span></div>
+      <div class="bcol"><h3>Barrage 2</h3>
+        <div class="tie">
+          <div class="tm win"><span>CEA (2e)</span><span>vs</span></div>
+          <div class="tm"><span>3e du classement</span><span></span></div>
+          <div class="legs">Stade Makis · date à confirmer</div>
+        </div>
       </div>
-      <div class="tie">
-        <div class="tm win"><span>CEA (2e)</span><span>vs</span></div>
-        <div class="tm"><span>3e du classement</span><span></span></div>
+      <div class="bcol"><h3>Finale</h3>
+        <div class="finalcard" style="background:linear-gradient(135deg,var(--red),#A32E1F)">
+          <div class="flab">TITRE 2026</div>
+          <div class="fteams">Le Cosfa peut-il finir la saison invaincu ?</div>
+          <div class="fdate" style="margin-top:6px">Entre les vainqueurs des barrages</div>
+          <div class="fchamp" style="background:#fff">🎥 KIANJA filmera les phases finales</div>
+        </div>
       </div>
-      <div class="finalcard" style="margin-top:10px;background:linear-gradient(135deg,var(--red),#A32E1F)">
-        <div class="flab">PUIS LA FINALE</div>
-        <div class="fteams">Le Cosfa peut-il finir la saison invaincu ?</div>
-        <div class="fdate" style="margin-top:6px">Dates des barrages à confirmer par Malagasy Rugby</div>
-        <div class="fchamp" style="background:#fff">🎥 KIANJA filmera les phases finales</div>
-      </div>
-    </div>
-  </div>`;
+    </div>`;
 })();
 
 /* ================================================================
