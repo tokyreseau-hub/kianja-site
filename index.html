@@ -55,9 +55,14 @@ header{background:var(--navy);position:sticky;top:0;z-index:50;box-shadow:0 2px 
 }
 .menu{display:flex;gap:2px}
 
-/* ---------- live ticker ---------- */
-.ticker{background:var(--green);color:#fff;font-size:12.5px;padding:7px 0;overflow:hidden}
-.ticker .wrap{display:flex;gap:26px;white-space:nowrap;overflow-x:auto;scrollbar-width:none}
+/* ---------- live ticker (bandeau défilant) ---------- */
+.ticker{background:var(--green);color:#fff;font-size:14px;padding:12px 0;overflow:hidden}
+.tickertrack{display:flex;white-space:nowrap;width:max-content;animation:tickscroll 50s linear infinite}
+.ticker:hover .tickertrack{animation-play-state:paused}
+.tgroup{display:flex;gap:40px;padding-right:40px;align-items:center}
+@keyframes tickscroll{to{transform:translateX(-50%)}}
+.tad{background:var(--gold);color:#101820;border-radius:999px;padding:4px 15px;font-weight:700}
+@media (prefers-reduced-motion:reduce){.tickertrack{animation:none}}
 .ticker b{font-weight:800}
 .dotlive{display:inline-block;width:7px;height:7px;border-radius:50%;background:#FF5B49;
   margin-right:5px;animation:pulse 1.2s infinite}
@@ -302,7 +307,7 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;
 </header>
 
 <!-- ============ TICKER ============ -->
-<div class="ticker"><div class="wrap" id="ticker"></div></div>
+<div class="ticker"><div class="tickertrack" id="ticker"></div></div>
 
 <!-- ============ HERO ============ -->
 <div class="hero" id="top">
@@ -712,15 +717,31 @@ const PFL_BRACKET = {
    ================================================================ */
 const $ = s => document.querySelector(s);
 
-/* ticker */
-$("#ticker").innerHTML =
-  '<span><span class="dotlive"></span><b>MER. 22 JUIL.</b> — Demi-finales de la Coupe de Madagascar</span>' +
-  '<span><b>PFL</b> : CFFA champion de Madagascar 2025-26 🏆</span>' +
-  '<span><b>Rugby</b> : Cosfa boucle la phase régulière du Top 12 invaincu</span>' +
-  '<span><b>N1A</b> : phase finale fin septembre à Antananarivo</span>' +
-  '<span><b>Volley</b> : la Zone 7 U18 débarque à Tana en août</span>' +
-  '<span><b>Tennis</b> : les Akomba battues par le Nigeria à Gaborone, la montée attendra 2027</span>' +
-  RESULTS.slice(0,4).map(r=>`<span><b>${SPORTS[r.sport].label}</b> : ${r.a} ${r.sa}-${r.sb} ${r.b}</span>`).join("");
+/* ticker — bandeau défilant : actus + publicités
+   PUBS : modifiez TICKER_ADS pour vendre ces emplacements (texte doré) */
+const TICKER_ADS = [
+  '<span class="tad">📣 Votre publicité ici — contact@kianja.mg</span>',
+  '<span class="tad">🤝 Devenez sponsor fondateur de KIANJA — packs dès 500 000 Ar/mois</span>'
+];
+const TICKER_NEWS = [
+  '<span><span class="dotlive"></span><b>MER. 22 JUIL.</b> — Demi-finales de la Coupe de Madagascar</span>',
+  '<span><b>PFL</b> : CFFA champion de Madagascar 2025-26 🏆</span>',
+  '<span><b>Rugby</b> : Cosfa boucle la phase régulière du Top 12 invaincu</span>',
+  '<span><b>N1A</b> : phase finale fin septembre à Antananarivo</span>',
+  '<span><b>Volley</b> : la Zone 7 U18 débarque à Tana en août</span>',
+  '<span><b>Tennis</b> : les Akomba battues par le Nigeria à Gaborone, la montée attendra 2027</span>'
+].concat(RESULTS.slice(0,4).map(r=>`<span><b>${SPORTS[r.sport].label}</b> : ${r.a} ${r.sa}-${r.sb} ${r.b}</span>`));
+(function(){
+  const items = [];
+  TICKER_NEWS.forEach((n,i)=>{
+    items.push(n);
+    if((i+1)%3===0) items.push(TICKER_ADS[((i+1)/3-1)%TICKER_ADS.length]);
+  });
+  const group = '<div class="tgroup">'+items.join("")+'</div>';
+  const t = $("#ticker");
+  t.innerHTML = group + group;               // 2 copies = boucle sans coupure
+  t.style.animationDuration = Math.max(30, items.length*5) + "s";
+})();
 
 /* hero — prochain match + compte à rebours */
 $("#nextmatch").innerHTML = `
